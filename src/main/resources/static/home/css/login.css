@@ -1,0 +1,124 @@
+/* This is your custom CSS for the login page, matching the registration style */
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('https://img6.thuthuatphanmem.vn/uploads/2022/03/04/background-the-thao-dep-cho-powerpoint_030629052.jpg');
+    background-color: #3498db; /* Fallback color */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-size: cover; /* Covers the entire area */
+    background-position: center; /* Centers the image */
+    background-attachment: fixed; /* Fixed background on scroll */
+}
+
+.navbar {
+    display: none; /* Hide the navbar */
+}
+
+.container {
+    background-color: #8dc0ff; /* Background color for the form */
+    padding: 0; /* Consistent padding inside the form container */
+    border-radius: 8px; /* Rounded corners for the form container */
+    box-shadow: 0px 0px 10px 0px rgba(47, 138, 252 , 1); /* Subtle shadow effect */
+    width: 550px;
+    max-width: 550px; /* Max width of the form */
+    align-self: center; /* Center the form vertically */
+    margin-top: 50px; /* Adjust top margin */
+}
+
+h1 {
+    color: #FFF; /* Title color */
+    text-align: center;
+    margin-bottom: 30px; /* Spacing after the title */
+}
+
+.control-label {
+    color: #FFF; /* Label color */
+    font-size: 16px;
+    font-weight: bold;
+    display: block; /* Labels take their own line */
+    margin-bottom: 10px; /* Space between label and input field */
+    margin-left: 50px;
+}
+
+.form-control {
+    background: #F2F2F2; /* Light background for inputs */
+    border: 2px solid transparent; /* Transparent border to match design */
+    margin-bottom: 15px; /* Spacing between fields */
+    height: 45px; /* Height to match the design */
+    border-radius: 25px; /* Rounded borders to match the design */
+    box-shadow: none; /* No shadow for a flatter design */
+    width: 300px; /* Full width of its container */
+    padding-left: 20px; /* Padding inside the input field */
+    margin-left: -10px;
+}
+/*.form-group {*/
+/*    !* Center-align the labels and controls *!*/
+/*    text-align: center;*/
+/*}*/
+.form-control:focus {
+    background: #E2E2E2; /* Slightly darker background on focus */
+    border: 2px solid #A1A1A1
+    /*margin-left:30px;*/
+    /* Border color on focus to match design */
+}
+/*.form-control, .btn-primary {*/
+/*    !* Set the width of inputs and buttons *!*/
+/*    width: 300px; !* Adjust this value if needed *!*/
+/*    margin-left: auto; !* Auto margin for center alignment *!*/
+/*    margin-right: auto; !* Auto margin for center alignment *!*/
+/*    display: block; !* Block level for automatic margins to work *!*/
+/*}*/
+
+.btn-primary {
+    background-color: #56ab2f; /* Green background */
+    background-image: linear-gradient(to right, #a8e063, #56ab2f); /* Gradient background */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px; /* Rounded borders */
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    width: 100%; /* Full-width button */
+    margin-top: 20px;
+}
+.btn-primary {
+    width: 300px;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+    background-image: linear-gradient(to right, #a8e063, #56ab2f); /* Hover gradient */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for active state */
+    outline: none; /* Remove the outline */
+}
+/* Additional styles for links and other text */
+a {
+    color: #FFF; /* Text color for links */
+    text-decoration: none; /* No underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .container {
+        max-width: calc(100% - 40px); /* Full width with padding */
+        padding: 20px; /* Smaller padding on smaller screens */
+    }
+    .btn-primary {
+        width: 100%; /* Full width on smaller screens */
+        padding: 15px 0; /* Padding top and bottom, no left and right */
+    }
+    .form-control,
+    .btn-primary {
+        width: calc(100% - 40px); /* Full width with padding */
+    }
+
+    h1 {
+        font-size: 24px; /* Smaller font size for smaller screens */
+    }
+}

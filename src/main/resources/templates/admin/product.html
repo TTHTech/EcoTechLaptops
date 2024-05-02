@@ -136,7 +136,6 @@
 
                 <div class="modal fade" th:id="'ModalUP-' + ${product.id}" tabindex="-1" role="dialog"
                      aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                  <form th:action="@{/update}" method="post" th:object="${product}" >
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
 
@@ -186,7 +185,6 @@
                       </div>
                     </div>
                   </div>
-                  </form>
                 </div>
               </th:block>
               </tbody>
