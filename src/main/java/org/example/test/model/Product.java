@@ -7,7 +7,7 @@ public class Product {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     private String name;
-    private long price;
+    private double price;
     @ManyToOne
     private Category category;
     private String description;
@@ -29,11 +29,11 @@ public class Product {
         this.name = name;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -61,7 +61,7 @@ public class Product {
         this.image = image;
     }
 
-    public Product(String productName, long productPrice, Category category, String description, String image) {
+    public Product(String productName, double productPrice, Category category, String description, String image) {
         this.name = productName;
         this.price = productPrice;
         this.category = category;

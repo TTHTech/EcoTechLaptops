@@ -1,0 +1,143 @@
+body, html {
+    height: 100%; /* Make sure the html and body are full height */
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('https://img.51miz.com/preview/element/00/01/14/38/E-1143815-FCAE4302.jpg'); /* Path to your image */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Cover the entire space */
+    background-attachment: fixed; /* Fixed background on scroll */
+}
+
+/* Style adjustments for form container */
+.container {
+    width: 550px;
+
+    padding: 0px;
+    /*margin-top: 50px; !* Cách trên 50px *!*/
+    /*margin-bottom: 50px; !* Cách dưới 5px *!*/
+    /*margin-right: 50px;*/
+
+    background-color: #195e83; /* Màu vàng cho container */
+    box-shadow: 0px 0px 10px 0px rgba(47, 138, 252 , 1); /* Thêm bóng mờ nếu bạn muốn */
+    border-radius: 8px; /* Bo góc nếu bạn muốn */
+    /* Bạn có thể thêm padding ở đây nếu bạn muốn container có không gian bên trong */
+    align-self: center; /* Đảm bảo căn giữa theo chiều ngang nếu bạn sử dụng flexbox */
+}
+
+h1 {
+    color: #FFF;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+.control-label
+{
+    color: #FFF;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right:100px;
+}
+.form-control {
+
+    background: #F2F2F2; /* Light background for inputs */
+    border: 2px solid transparent;
+    margin-bottom: 15px; /* Spacing between fields */
+    height: 45px; /* Match the design height */
+    border-radius: 25px; /* Rounded borders to match the design */
+    box-shadow: none;
+    width: 300px;
+    /*margin-right: 100px;*/
+}
+
+.form-control:focus {
+    background: #E2E2E2; /* Slightly darker background on focus */
+    border: 2px solid #A1A1A1;
+    /* Match the design */
+}
+/*.control-label {*/
+/*    color: #FFF;*/
+/*    font-size: 16px;*/
+/*    font-weight: bold;*/
+/*    margin-left:10px;*/
+/*}*/
+/*.form-control*/
+/*{*/
+/*    margin-right: 100px;*/
+/*}*/
+/*.form-group {*/
+/*    margin-right: 100px; !* Spacing between form groups *!*/
+/*}*/
+/* Adjust the button to match the design */
+.btn-success {
+    background-color: #56ab2f; /* Green background */
+    background-image: linear-gradient(to right, #a8e063, #56ab2f); /* Gradient background */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px; /* Rounded borders */
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    width: 100%; /* Full-width button */
+    margin-top: 20px; /* Space above the button */
+}
+
+/* Hover effect for button */
+.btn-success:hover,
+.btn-success:active,
+.btn-success:focus {
+    background-image: linear-gradient(to right, #a8e063, #56ab2f);
+    outline: none; /* Remove focus border */
+    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.3); /* Larger shadow for active state */
+
+}
+.btn-success
+{
+    width: 300px;
+
+}
+/* Styling for other text and links */
+a {
+    color: #FFF;
+    text-decoration: none;
+}
+.login-link{
+    color: #56ab2f; /* Replace #hoverColor with the color you want on hover */
+}
+.login-link:hover{
+    color:yellow; /* Replace #hoverColor with the color you want on hover */
+}
+/* Override Bootstrap's navbar-inverse styles */
+.navbar-inverse {
+    background-color: transparent;
+    border: none;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #FFF;
+}
+
+/* Spacing for the navbar */
+.navbar {
+    margin-bottom: 50px; /* Ensure enough space between the navbar and form */
+}
+alert alert-info
+{
+    color: #FFF;
+    width: 100px;
+    height: 100px;
+    background-color: #3498DB
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 767px) {
+    .container {
+        max-width: calc(100% - 20px); /* Full width minus a small amount of padding */
+        padding: 10px; /* Padding on smaller screens */
+    }
+
+    .form-control {
+        width: calc(100% - 20px); /* Adjust width for smaller screens */
+    }
+}
