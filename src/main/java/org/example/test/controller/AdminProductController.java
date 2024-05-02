@@ -29,9 +29,8 @@ public class AdminProductController {
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         product.setImage(avatar);
         String name = product.getCategory().getName();
-        Long stringPrice = product.getPrice();
-        long longPrice = stringPrice.longValue();
-        product.setPrice(longPrice);
+        double stringPrice = product.getPrice();
+        product.setPrice(stringPrice);
         Category category = categoryService.findByName(name);
         if (category == null) {
             category = new Category();
