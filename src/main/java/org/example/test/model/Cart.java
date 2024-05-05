@@ -11,7 +11,7 @@ public class Cart {
     private long id;
     @OneToOne
     private Customer customer;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Item> items;
 
     public long getId() {

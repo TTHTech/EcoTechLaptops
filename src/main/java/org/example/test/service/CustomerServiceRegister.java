@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceRegister implements UserDetailsService {
@@ -41,5 +42,12 @@ public class CustomerServiceRegister implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(customer.getEmail(), customer.getPassword(), Collections.emptyList());
+    }
+
+    public Optional<Customer> getCustomer(long id){
+        return customerRepository.findById(id);
+    }
+    public Optional<Customer> getCustomerByEmail(String email){
+        return Optional.ofNullable(customerRepository.findByEmail(email));
     }
 }

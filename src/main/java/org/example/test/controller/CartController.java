@@ -1,6 +1,8 @@
 package org.example.test.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.example.test.model.Cart;
+import org.example.test.model.Customer;
 import org.example.test.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +17,9 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/getCart/{id}")
-    public String getCart(@PathVariable Long id, Model model){
-        Cart cart = cartService.getCart(id);
+    @GetMapping("/getCart")
+    public String getCart(Model model, HttpSession session){
+        Cart cart = (Cart) session.getAttribute("cart");
         model.addAttribute("cart", cart);
         model.addAttribute("totalPrice", cart.getTotalPrice());
 
@@ -25,18 +27,32 @@ public class CartController {
     }
 
     // + (-)
-    @GetMapping("/updateCart/{cartId}/{itemId}/{quantity}")
-    public String updateQuantityCart(@PathVariable Long cartId, @PathVariable Long itemId, @PathVariable int quantity){
-        cartService.updateQuantityCart(cartId, itemId, quantity);
+    @GetMapping("/updateCart/{itemId}/{quantity}")
+    public String updateQuantityCart(@PathVariable Long itemId, @PathVariable int quantity, HttpSession session){
+        Cart cart = (Cart) session.getAttribute("cart");
+        cartService.updateQuantityCart(cart.getId(), itemId, quantity);
 
-        return "redirect:/cart/getCart/" + cartId;
+        // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
+        cart = cartService.findCart(cart.getCustomer());
+
+        // Cập nhật giỏ hàng mới vào phiên làm việc
+        session.setAttribute("cart", cart);
+
+        return "redirect:/cart/getCart";
     }
 
-    @GetMapping("/deleteItem/{cartId}/{itemId}")
-    public String deleteItemById(@PathVariable Long cartId, @PathVariable Long itemId){
-        this.cartService.deleteItemById(cartId,itemId);
+    @GetMapping("/deleteItem/{itemId}")
+    public String deleteItemById(@PathVariable Long itemId, HttpSession session){
+        Cart cart = (Cart) session.getAttribute("cart");
+        this.cartService.deleteItemById(cart.getId(),itemId);
 
-        return "redirect:/cart/getCart/" + cartId;
+        // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
+        cart = cartService.findCart(cart.getCustomer());
+
+        // Cập nhật giỏ hàng mới vào phiên làm việc
+        session.setAttribute("cart", cart);
+
+        return "redirect:/cart/getCart";
     }
 
 }
