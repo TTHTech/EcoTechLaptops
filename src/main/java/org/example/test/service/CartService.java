@@ -1,12 +1,15 @@
 package org.example.test.service;
 
 import org.example.test.model.Cart;
+import org.example.test.model.Customer;
 import org.example.test.model.Item;
 import org.example.test.model.Product;
 import org.example.test.repository.CartRepository;
 import org.example.test.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CartService {
@@ -16,6 +19,10 @@ public class CartService {
     private ItemService itemService;
     @Autowired
     private ProductService productService;
+
+    public List<Cart> getAllCarts(){
+        return cartRepository.findAll();
+    }
 
     public Cart getCart(long id){
         return this.cartRepository.findCartById(id);
@@ -92,6 +99,17 @@ public class CartService {
             }
         }
         return 0;
+    }
+
+    //tìm cái cart bằng customer (khi đăng nhập thì tìm cái cart cho nó)
+    public Cart findCart(Customer customer){
+        List<Cart> allCarts = getAllCarts();
+        for (Cart cart : allCarts){
+            if (customer.getId() == cart.getCustomer().getId()){
+                return cart;
+            }
+        }
+        return null;
     }
 
 }

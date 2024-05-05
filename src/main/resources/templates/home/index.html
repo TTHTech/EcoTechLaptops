@@ -87,6 +87,7 @@
                 <form action="">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for products">
+                        <span th:text="${customer.getEmail()}"></span>
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -162,7 +163,7 @@
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
-                            <a th:href="@{/cart/getCart/1}" class="btn px-0 ml-3">
+                            <a th:href="@{/cart/getCart}" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
@@ -311,7 +312,7 @@
                         <div class="product-action">
 <!--                            đang gán cứng cartID là 1 vào url-->
                             <a class="btn btn-outline-dark btn-square"
-                               th:href="@{'/home/addToCart/1/' + ${product.getId()}}">
+                               th:href="@{'/home/addToCart/' + ${product.getId()}}">
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>

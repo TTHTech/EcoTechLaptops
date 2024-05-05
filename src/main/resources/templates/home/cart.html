@@ -205,25 +205,25 @@
                 </tr>
                 </thead>
                 <tbody class="align-middle">
-                <tr th:each="item, itemStatus : ${cart.items}" th:object="${item}">
+                <tr th:each="item, itemStatus : ${cart.getItems()}" th:object="${item}">
                     <td class="align-middle">
-                        <img th:src="${item.product.image}" alt="" style="width: 50px;">
-                        <span th:text="${item.product.name}">Product Name</span>
+                        <img th:src="${item.getProduct().getImage()}" alt="" style="width: 50px;">
+                        <span th:text="${item.getProduct().getName()}">Product Name</span>
                     </td>
-                    <td class="align-middle" th:text="@{'$' + ${item.product.price}}">Price</td>
+                    <td class="align-middle" th:text="@{'$' + ${item.getProduct().getPrice()}}">Price</td>
                     <td class="align-middle">
                         <div class="input-group quantity mx-auto" style="width: 100px;">
                             <div class="input-group-btn">
-                                <a th:href="@{'/cart/updateCart/' + ${cart.getId()} + '/' + ${item.id} + '/-1'}">
+                                <a th:href="@{'/cart/updateCart/' + ${item.getId()} + '/-1'}">
                                     <button class="btn btn-sm btn-primary btn-minus">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </a>
                             </div>
                             <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center"
-                                   th:value="${item.quantity}">
+                                   th:value="${item.getQuantity()}">
                             <div class="input-group-btn">
-                                <a th:href="@{'/cart/updateCart/' + ${cart.getId()} + '/' + ${item.id} + '/1'}">
+                                <a th:href="@{'/cart/updateCart/' + ${item.getId()} + '/1'}">
                                 <button class="btn btn-sm btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>
                                     </button>
@@ -231,10 +231,10 @@
                             </div>
                         </div>
                     </td>
-                    <td class="align-middle" th:text="'$' + ${item.product.price * item.quantity}">Total Price</td>
+                    <td class="align-middle" th:text="'$' + ${item.getProduct().getPrice() * item.getQuantity()}">Total Price</td>
 
                     <td class="align-middle">
-                        <a th:href="@{'/cart/deleteItem/' + ${cart.getId()} + '/' + ${item.id}}">
+                        <a th:href="@{'/cart/deleteItem/' + ${item.getId()}}">
                             <button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button>
                         </a>
                     </td>
