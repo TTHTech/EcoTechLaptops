@@ -28,6 +28,10 @@ public class CartService {
         return this.cartRepository.findCartById(id);
     }
 
+    public void saveCart(Cart cart){
+        cartRepository.save(cart);
+    }
+
     public void updateQuantityCart(long cartId, long itemId, int hieuso){
         Cart cart = getCart(cartId);
         Item item = this.itemService.getItemById(itemId);
