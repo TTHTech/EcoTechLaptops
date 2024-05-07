@@ -1,11 +1,9 @@
 package org.example.test.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity(name = "admins")
+@Table(name = "admins", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +11,9 @@ public class Admin {
     private String name;
     private String email;
     private String password;
+    private String role; // Thêm trường role
 
+    // Getters and setters
     public long getId() {
         return id;
     }
@@ -46,10 +46,19 @@ public class Admin {
         this.password = password;
     }
 
-    public Admin(String name, String email, String password) {
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Admin(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public Admin() {

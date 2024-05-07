@@ -31,8 +31,13 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="/index.html"><i class='bx bx-log-out bx-rotate-180'></i> </a>
-
+      <li>
+        <form action="/logout" method="post" style="all: unset;">
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+          <button class="app-nav__item" type="submit" style="background: none; border: none; cursor: pointer; color: gold;">
+            <i class='bx bx-log-out bx-rotate-180'></i>
+          </button>
+        </form>
       </li>
     </ul>
   </header>
