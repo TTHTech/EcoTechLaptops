@@ -25,24 +25,18 @@ public class AdminProductController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/admin/product/create")
     public String handleCreateProduct(@ModelAttribute("newProduct") Product product,
             @RequestParam("imageProduct") MultipartFile file) {
 
-        String avatar = this.uploadService.handleSaveUploadFile(file, "product");
-        product.setImage(avatar);
-        String name = product.getCategory().getName();
+        String imageProduct = this.uploadService.handleSaveUploadFile(file, "product");
+        product.setImage(imageProduct);
         double stringPrice = product.getPrice();
         product.setPrice(stringPrice);
-        Category category = categoryService.findByName(name);
-        if (category == null) {
-            category = new Category();
-            category.setName(name);
-            categoryService.createCategory(category);
-        }
+        Category category = this.categoryService.findByName(product.getCategory().getName());
         product.setCategory(category);
         this.productService.saveProduct(product);
-        return "redirect:/product";
+        return "redirect:/admin/product";
     }
 
     @GetMapping("/admin/order")

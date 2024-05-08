@@ -36,29 +36,46 @@ public class AdminController {
         List<Category> categories = categoryService.getAllCategory();
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
-
         return "admin/product";
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/admin/product/delete")
     public String handleDeleteProduct(@RequestParam("id") Long id) {
         productService.deleteProduct(id);
-        return "redirect:/product";
+        return "redirect:/admin/product";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/admin/product/create")
     public String handleCreatProduct(Model model) {
+        List<Category> categories = categoryService.getAllCategory();
+        model.addAttribute("categories", categories);
         model.addAttribute("newProduct", new Product());
-        return "admin/create";
+        return "admin/createProduct";
     }
 
-    @PostMapping("/update")
-    public String handleUpdateProduct(@ModelAttribute Product product) {
+    @PostMapping("/admin/product/update")
+    public String handleUpdateProduct(@ModelAttribute("newProduct") Product product,
+            @RequestParam("imageProduct") MultipartFile file) {
         Product currentProduct = productService.getProductById(product.getId());
         currentProduct.setName(product.getName());
         currentProduct.setPrice(product.getPrice());
+        currentProduct.setDescription(product.getDescription());
+        Category category = categoryService.findByName(product.getCategory().getName());
+        String imageProduct = this.uploadService.handleSaveUploadFile(file, "product");
+        currentProduct.setImage(imageProduct);
+        currentProduct.setCategory(category);
         productService.saveProduct(currentProduct);
-        return "redirect:/product";
+        return "redirect:/admin/product";
+    }
+
+    @GetMapping("/admin/product/update/{id}")
+    public String pageUpdateProduct(@PathVariable("id") Long id, Model model) {
+        Product currentProduct = productService.getProductById(id);
+        List<Category> categories = categoryService.getAllCategory();
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("newProduct", currentProduct);
+        return "admin/updateProduct";
     }
 
     @GetMapping("/admin/category")
