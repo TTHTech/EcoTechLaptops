@@ -162,7 +162,7 @@
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/uploads/images/hay.jpg" width="50px"
-                                        alt="User Image">
+        alt="User Image">
       <div>
         <p class="app-sidebar__user-name"><b>Võ Trường</b></p>
         <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
@@ -206,13 +206,13 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <form class="tile" th:action="@{create}" th:object="${newProduct}" method="post" enctype="multipart/form-data" >
+        <form class="tile" th:action="@{create}" th:object="${newProduct}" method="post" enctype="multipart/form-data">
           <h3 class="tile-title">Tạo mới sản phẩm</h3>
           <div class="tile-body">
             <div class="row element-button">
               <div class="col-sm-2">
-                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#adddanhmuc"><i
-                    class="fas fa-folder-plus"></i> Thêm danh mục</a>
+                <a href="/admin/category/create" class="btn btn-add btn-sm"><i class="fas fa-folder-plus"></i> Thêm danh
+                  mục</a>
               </div>
             </div>
 
@@ -242,12 +242,11 @@
               <div class="form-group col-md-12">
                 <label class="control-label">Ảnh sản phẩm</label>
                 <div id="myfileupload">
-                  <input class="form-control" type="file" id="avatarFile"
-                         accept=".png, .jpg, .jpeg" name="imageProduct" />
+                  <input style="width: 250px;" class="form-control" type="file" id="avatarFile"
+                    accept=".png, .jpg, .jpeg" name="imageProduct" />
                 </div>
                 <div id="thumbbox">
-                  <img height="450" width="400" alt="avatar preview"
-                  id="avatarPreview" style="display: none" />
+                  <img height="450" width="400" alt="avatar preview" id="avatarPreview" style="display: none" />
                   <a class="removeimg" href="javascript:"></a>
                 </div>
 
@@ -266,130 +265,6 @@
   </main>
 
 
-
-  <!--
-MODAL CHỨC VỤ
--->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="form-group  col-md-12">
-              <span class="thong-tin-thanh-toan">
-                <h5>Thêm mới nhà cung cấp</h5>
-              </span>
-            </div>
-            <div class="form-group col-md-12">
-              <label class="control-label">Nhập tên chức vụ mới</label>
-              <input class="form-control" type="text" required>
-            </div>
-          </div>
-          <BR>
-          <button class="btn btn-save" type="button">Lưu lại</button>
-          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-          <BR>
-        </div>
-        <div class="modal-footer">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--
-MODAL
--->
-
-
-
-  <!--
-MODAL DANH MỤC
--->
-  <div class="modal fade" id="adddanhmuc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="form-group  col-md-12">
-              <span class="thong-tin-thanh-toan">
-                <h5>Thêm mới danh mục </h5>
-              </span>
-            </div>
-            <div class="form-group col-md-12">
-              <label class="control-label">Nhập tên danh mục mới</label>
-              <input class="form-control" type="text" required>
-            </div>
-            <div class="form-group col-md-12">
-              <label class="control-label">Danh mục sản phẩm hiện đang có</label>
-              <ul style="padding-left: 20px;">
-                <li>Bàn ăn</li>
-                <li>Bàn thông minh</li>
-                <li>Tủ</li>
-                <li>Ghế gỗ</li>
-                <li>Ghế sắt</li>
-                <li>Giường người lớn</li>
-                <li>Giường trẻ em</li>
-                <li>Bàn trang điểm</li>
-                <li>Giá đỡ</li>
-              </ul>
-            </div>
-          </div>
-          <BR>
-          <button class="btn btn-save" type="button">Lưu lại</button>
-          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-          <BR>
-        </div>
-        <div class="modal-footer">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--
-MODAL
--->
-
-
-
-
-  <!--
-MODAL TÌNH TRẠNG
--->
-  <div class="modal fade" id="addtinhtrang" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="form-group  col-md-12">
-              <span class="thong-tin-thanh-toan">
-                <h5>Thêm mới tình trạng</h5>
-              </span>
-            </div>
-            <div class="form-group col-md-12">
-              <label class="control-label">Nhập tình trạng mới</label>
-              <input class="form-control" type="text" required>
-            </div>
-          </div>
-          <BR>
-          <button class="btn btn-save" type="button">Lưu lại</button>
-          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-          <BR>
-        </div>
-        <div class="modal-footer">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--
-MODAL
--->
-
-
-
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
@@ -398,8 +273,6 @@ MODAL
   <script>
     const inpFile = document.getElementById("inpFile");
     const loadFile = document.getElementById("loadFile");
-    const previewContainer = document.getElementById("imagePreview");
-    const previewContainer = document.getElementById("imagePreview");
     const previewImage = previewContainer.querySelector(".image-preview__image");
     const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
     inpFile.addEventListener("change", function () {

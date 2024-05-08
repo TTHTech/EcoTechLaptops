@@ -29,7 +29,7 @@ public class AdminProductController {
     public String handleCreateProduct(@ModelAttribute("newProduct") Product product,
             @RequestParam("imageProduct") MultipartFile file) {
 
-        String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        String avatar = this.uploadService.handleSaveUploadFile(file, "product");
         product.setImage(avatar);
         String name = product.getCategory().getName();
         double stringPrice = product.getPrice();

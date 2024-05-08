@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Main CSS-->
-  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -68,7 +68,7 @@
                     <td width="10"><input type="checkbox" name="check1" value="1"></td>
                     <td th:text="${product.id}"></td>
                     <td th:text="${product.name}"></td>
-                    <td><img th:src="@{/images/avatar/{image}(image=${product.image})}" alt="" width="100px;"></td>
+                    <td><img th:src="@{/images/product/{image}(image=${product.image})}" alt="" width="100px;"></td>
                     <td th:text="${product.price}"></td>
                     <td th:text="${product.category.name}"></td>
                     <td>
@@ -145,28 +145,19 @@
     </div>
   </main>
 
-  <!--
-  MODAL
--->
-
-  <!--
-MODAL
--->
-
-  <!-- Essential javascripts for application to work-->
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+  <script src="/js/jquery-3.2.1.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="src/jquery.table2excel.js"></script>
-  <script src="js/main.js"></script>
+  <script src="/js/main.js"></script>
   <!-- The javascript plugin to display page loading on top-->
-  <script src="js/plugins/pace.min.js"></script>
+  <script src="/js/plugins/pace.min.js"></script>
   <!-- Page specific javascripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <!-- Data table plugin-->
-  <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/plugins/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/js/plugins/dataTables.bootstrap.min.js"></script>
   <script type="text/javascript">
     $('#sampleTable').DataTable();
     //Thời Gian
