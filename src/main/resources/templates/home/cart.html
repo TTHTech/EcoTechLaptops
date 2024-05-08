@@ -41,10 +41,22 @@
         <div class="col-lg-6 text-center text-lg-right">
             <div class="d-inline-flex align-items-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
+                        <span th:if="${session.customer == null}">My Account</span>
+                        <span th:if="${session.customer != null}">Hello, <span th:text="${session.customer.name}"></span></span>
+                    </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">Sign in</button>
-                        <button class="dropdown-item" type="button">Sign up</button>
+                        <div th:if="${session.customer == null}">
+                            <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/login'">Sign in</button>
+                            <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/register'">Sign up</button>
+                        </div>
+                        <div th:if="${session.customer != null}">
+                            <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/account'">Account</button>
+                            <form action="/logout" method="post">
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="btn-group mx-2">

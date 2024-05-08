@@ -54,11 +54,11 @@ public class MainController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-	@GetMapping("/login")
-	public String login() {
-		logger.info("Accessing the login page");
-		return "home/login";
-	}
+//	@GetMapping("/login")
+//	public String login() {
+//		logger.info("Accessing the login page");
+//		return "home/login";
+//	}
 
 	@GetMapping("/index")
 	public String home(HttpSession session) {
