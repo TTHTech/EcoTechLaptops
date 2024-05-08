@@ -207,7 +207,7 @@
                 <tbody class="align-middle">
                 <tr th:each="item, itemStatus : ${cart.getItems()}" th:object="${item}">
                     <td class="align-middle">
-                        <img th:src="${item.getProduct().getImage()}" alt="" style="width: 50px;">
+                        <img th:src="@{/images/avatar/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
                         <span th:text="${item.getProduct().getName()}">Product Name</span>
                     </td>
                     <td class="align-middle" th:text="@{'$' + ${item.getProduct().getPrice()}}">Price</td>
