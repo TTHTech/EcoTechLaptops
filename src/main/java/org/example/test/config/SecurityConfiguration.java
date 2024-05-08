@@ -54,7 +54,7 @@ public class SecurityConfiguration {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/perform_login")
-                        .successHandler(loginSuccessHandler())  // Sử dụng trình xử lý thành công tùy chỉnh
+                        .successHandler(loginSuccessHandler()) // Sử dụng trình xử lý thành công tùy chỉnh
                         .failureUrl("/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
@@ -72,9 +72,9 @@ public class SecurityConfiguration {
             boolean isAdmin = authentication.getAuthorities().stream()
                     .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
             if (isAdmin) {
-                response.sendRedirect("/product");  // Điều hướng admin đến trang sản phẩm
+                response.sendRedirect("/admin"); // Điều hướng admin đến trang sản phẩm
             } else {
-                response.sendRedirect("/index");  // Điều hướng người dùng không phải admin đến trang khác
+                response.sendRedirect("/index"); // Điều hướng người dùng không phải admin đến trang khác
             }
         };
     }

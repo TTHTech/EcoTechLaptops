@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <title>Danh sách nhân viên | Quản trị Admin</title>
@@ -23,63 +23,11 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
-  <header class="app-header">
-    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-      aria-label="Hide Sidebar"></a>
-    <!-- Navbar Right Menu-->
-    <ul class="app-nav">
-
-
-      <!-- User Menu-->
-      <li>
-        <form action="/logout" method="post" style="all: unset;">
-          <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-          <button class="app-nav__item" type="submit" style="background: none; border: none; cursor: pointer; color: gold;">
-            <i class='bx bx-log-out bx-rotate-180'></i>
-          </button>
-        </form>
-      </li>
-    </ul>
-  </header>
+  <div th:replace="admin/navbar :: navbar"> </div>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/uploads/images/hay.jpg" width="50px"
-                                        alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>Võ Trường</b></p>
-        <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">POS Bán Hàng</span></a></li>
-      <li><a class="app-menu__item " href="index.html"><i class='app-menu__icon bx bx-tachometer'></i><span
-            class="app-menu__label">Bảng điều khiển</span></a></li>
-      <li><a class="app-menu__item " href="table-data-table.html"><i class='app-menu__icon bx bx-id-card'></i>
-          <span class="app-menu__label">Quản lý nhân viên</span></a></li>
-      <li><a class="app-menu__item " href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
-            class="app-menu__label">Quản lý khách hàng</span></a></li>
-      <li><a class="app-menu__item active" href="product.html"><i
-            class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="table-data-oder.html"><i class='app-menu__icon bx bx-task'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="table-data-banned.html"><i class='app-menu__icon bx bx-run'></i><span
-            class="app-menu__label">Quản lý nội bộ
-          </span></a></li>
-      <li><a class="app-menu__item" href="table-data-money.html"><i class='app-menu__icon bx bx-dollar'></i><span
-            class="app-menu__label">Bảng kê lương</span></a></li>
-      <li><a class="app-menu__item" href="quan-ly-bao-cao.html"><i
-            class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
-      </li>
-      <li><a class="app-menu__item" href="page-calendar.html"><i class='app-menu__icon bx bx-calendar-check'></i><span
-            class="app-menu__label">Lịch công tác </span></a></li>
-      <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-cog'></i><span class="app-menu__label">Cài
-            đặt hệ thống</span></a></li>
-    </ul>
-  </aside>
+  <div th:replace="admin/sidebar :: sidebar"> </div>
+
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
@@ -115,83 +63,80 @@
                 </tr>
               </thead>
               <tbody>
-              <th:block th:each="product : ${products}">
-                <tr >
-                  <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                  <td th:text="${product.id}"></td>
-                  <td th:text="${product.name}"></td>
-                  <td><img th:src="@{/images/avatar/{image}(image=${product.image})}" alt="" width="100px;"></td>
-                  <td th:text="${product.price}"></td>
-                  <td th:text="${product.category.name}"></td>
-                  <td>
-                    <form style="padding: 0;height: 31px;" class="btn btn-primary btn-sm trash" th:action="@{/delete}"
-                      method="post">
-                      <input type="hidden" th:name="id" th:value="${product.id}" />
-                      <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa">
-                        <i class="fas fa-trash-alt"></i>
+                <th:block th:each="product : ${products}">
+                  <tr>
+                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td><img th:src="@{/images/avatar/{image}(image=${product.image})}" alt="" width="100px;"></td>
+                    <td th:text="${product.price}"></td>
+                    <td th:text="${product.category.name}"></td>
+                    <td>
+                      <form style="padding: 0;height: 31px;" class="btn btn-primary btn-sm trash" th:action="@{/delete}"
+                        method="post">
+                        <input type="hidden" th:name="id" th:value="${product.id}" />
+                        <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </form>
+                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" data-toggle="modal"
+                        th:data-target="'#ModalUP-' + ${product.id}">
+                        <i class="fas fa-edit"></i>
                       </button>
-                    </form>
-                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                            data-toggle="modal"
-                            th:data-target="'#ModalUP-' + ${product.id}">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
 
-                <div class="modal fade" th:id="'ModalUP-' + ${product.id}" tabindex="-1" role="dialog"
-                     aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
+                  <div class="modal fade" th:id="'ModalUP-' + ${product.id}" tabindex="-1" role="dialog"
+                    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
 
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="form-group  col-md-12">
-              <span class="thong-tin-thanh-toan">
-                <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>
-              </span>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="form-group  col-md-12">
+                              <span class="thong-tin-thanh-toan">
+                                <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-md-6">
-                            <label class="control-label">Mã sản phẩm </label>
-                            <input  class="form-control" type="number" th:value="${product.id}" >
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label class="control-label">Mã sản phẩm </label>
+                              <input class="form-control" type="number" th:value="${product.id}">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="control-label">Tên sản phẩm</label>
+                              <input class="form-control" type="text" required th:value="${product.name}">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="control-label">Giá bán</label>
+                              <input class="form-control" type="text" th:value="${product.price}">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="exampleSelect1" class="control-label">Danh mục</label>
+                              <select class="form-control" id="exampleSelect1">
+                                <option th:each="category : ${categories}" th:value="${category.name}"
+                                  th:text="${category.name}" th:selected="${category.name == product.category.name}">
+                                </option>
+                              </select>
+                            </div>
                           </div>
-                          <div class="form-group col-md-6">
-                            <label class="control-label">Tên sản phẩm</label>
-                            <input class="form-control" type="text" required th:value="${product.name}" >
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label class="control-label">Giá bán</label>
-                            <input class="form-control" type="text" th:value="${product.price}" >
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label for="exampleSelect1" class="control-label">Danh mục</label>
-                            <select class="form-control" id="exampleSelect1">
-                              <option th:each="category : ${categories}"
-                                      th:value="${category.name}"
-                                      th:text="${category.name}"
-                                      th:selected="${category.name == product.category.name}">
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                        <BR>
-                        <a href="#" style="    float: right;
+                          <BR>
+                          <a href="#" style="    float: right;
     font-weight: 600;
     color: #ea0000;">Chỉnh sửa sản phẩm nâng cao</a>
-                        <BR>
-                        <BR>
-                        <button class="btn btn-save" type="submit">Lưu lại</button>
-                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                        <BR>
-                      </div>
-                      <div class="modal-footer">
+                          <BR>
+                          <BR>
+                          <button class="btn btn-save" type="submit">Lưu lại</button>
+                          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                          <BR>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </th:block>
+                </th:block>
               </tbody>
             </table>
           </div>
