@@ -87,7 +87,14 @@ public class AdminController {
 
     @PostMapping("/admin/category/delete")
     public String handleDeleteCategory(@RequestParam("id") Long id) {
-        categoryService.deleteCategory(id);
+        Category category = categoryService.getCategoryById(id);
+        if (category != null) {
+            List<Product> products = productService.getProductsByCategoryId(id);
+            for (Product product : products) {
+                productService.deleteProduct(product.getId());
+            }
+            categoryService.deleteCategory(id);
+        }
         return "redirect:/admin/category";
     }
 
@@ -102,7 +109,26 @@ public class AdminController {
             @RequestParam("imageCategory") MultipartFile file) {
         String image = this.uploadService.handleSaveUploadFile(file, "category");
         category.setImage(image);
-        categoryService.createCategory(category);
+        categoryService.saveCategory(category);
         return "redirect:/admin/category";
     }
+
+    @GetMapping("/admin/category/update/{id}")
+    public String pageUpdateCategory(@PathVariable("id") Long id, Model model) {
+        Category currentCategory = categoryService.getCategoryById(id);
+        model.addAttribute("newCategory", currentCategory);
+        return "admin/updateCategory";
+    }
+
+    @PostMapping("/admin/category/update")
+    public String handleUpdateCategory(@ModelAttribute("newCategory") Category category,
+            @RequestParam("imageProduct") MultipartFile file) {
+        Category currentCategory = categoryService.getCategoryById(category.getId());
+        currentCategory.setName(category.getName());
+        String imageCategory = this.uploadService.handleSaveUploadFile(file, "category");
+        currentCategory.setImage(imageCategory);
+        categoryService.saveCategory(currentCategory);
+        return "redirect:/admin/category";
+    }
+
 }

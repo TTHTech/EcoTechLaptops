@@ -73,12 +73,13 @@
                     <td th:text="${product.price}"></td>
                     <td th:text="${product.category.name}"></td>
                     <td>
-                      <form style="padding: 0;height: 31px;" class="btn btn-primary btn-sm trash"
+                      <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                        onclick="myFunction(this, '${product.id}')">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                      <form id="${product.id}" style="padding: 0;height: 31px;" class="btn btn-primary btn-sm trash"
                         th:action="@{/admin/product/delete}" method="post">
                         <input type="hidden" th:name="id" th:value="${product.id}" />
-                        <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa">
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
                       </form>
                       <a th:href="@{/admin/product/update/{id}(id=${product.id})}" class="btn btn-primary btn-sm edit"
                         title="Sửa"><i class="fas fa-edit"></i></a>
@@ -93,7 +94,21 @@
       </div>
     </div>
   </main>
-
+  <script>
+    function myFunction(button, productId) {
+      event.preventDefault();
+      swal({
+        title: "Cảnh báo",
+        text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
+        buttons: ["Hủy bỏ", "Đồng ý"],
+      }).then((willDelete) => {
+        if (willDelete) {
+          var form = button.parentElement.querySelector("form");
+          form.submit();
+        }
+      });
+    }
+  </script>
   <script src="/js/jquery-3.2.1.min.js"></script>
   <script src="/js/popper.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
