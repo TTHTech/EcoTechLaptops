@@ -18,7 +18,7 @@ public class CategoryService {
         return this.categoryRepository.findCategoryByName(name);
     }
 
-    public Category createCategory(Category category) {
+    public Category saveCategory(Category category) {
         return this.categoryRepository.save(category);
     }
 
@@ -30,4 +30,7 @@ public class CategoryService {
         this.categoryRepository.deleteById(id);
     }
 
+    public Category getCategoryById(Long id) {
+        return this.categoryRepository.findCategoryById(id);
+    }
 }

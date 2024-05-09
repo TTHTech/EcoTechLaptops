@@ -8,7 +8,7 @@
             const avatarFile = $("#avatarFile");
             const currentImage = $("#currentImage").val();
             if (currentImage) {
-                $("#avatarPreview").attr("src", "/resources/images/product/" + currentImage);
+                $("#avatarPreview").attr("src", "/resources/images/category/" + currentImage);
                 $("#avatarPreview").css({ "display": "block" });
             }
             avatarFile.change(function (e) {
@@ -159,13 +159,13 @@
     <main class="app-content" xmlns:th="http://www.thymeleaf.org">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item">Danh sách sản phẩm</li>
-                <li class="breadcrumb-item"><a href="#">Sửa sản phẩm</a></li>
+                <li class="breadcrumb-item">Danh sách danh mục</li>
+                <li class="breadcrumb-item"><a href="#">Sửa danh mục</a></li>
             </ul>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <form class="tile" th:action="@{/admin/product/update}" th:object="${newProduct}" method="post"
+                <form class="tile" th:action="@{/admin/category/update}" th:object="${newCategory}" method="post"
                     enctype="multipart/form-data">
                     <h3 class="tile-title">Tạo mới sản phẩm</h3>
                     <div class="tile-body">
@@ -179,27 +179,14 @@
 
                         <div class="row">
                             <div class="form-group col-md-3">
-                                <label class="control-label">Mã sản phẩm</label>
+                                <label class="control-label">Mã danh mục</label>
                                 <input th:field="*{id}" class="form-control" type="text" readonly>
                             </div>
                             <div class="form-group col-md-3">
-                                <label class="control-label">Tên sản phẩm</label>
+                                <label class="control-label">Tên danh mục</label>
                                 <input th:field="*{name}" class="form-control" type="text">
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="exampleSelect1" class="control-label">Danh mục</label>
-                                <select th:field="*{category.name}" class="form-control" id="exampleSelect1">
-                                    <option value="">-- Chọn danh mục --</option>
-                                    <option th:each="category : ${categories}" th:value="${category.name}"
-                                        th:text="${category.name}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Giá bán</label>
-                                <input th:field="*{price}" class="form-control" type="text">
-                            </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">Ảnh sản phẩm</label>
                                 <div id="myfileupload">
@@ -212,12 +199,6 @@
                                         style="display: none" />
                                     <a class="removeimg" href="javascript:"></a>
                                 </div>
-
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label class="control-label">Mô tả sản phẩm</label>
-                                <textarea th:field="*{description}" class="form-control" name="mota"
-                                    id="mota"></textarea>
                             </div>
                         </div>
                     </div>
