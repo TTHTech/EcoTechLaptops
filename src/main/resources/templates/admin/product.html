@@ -42,7 +42,8 @@
             <div class="row element-button">
               <div class="col-sm-2">
 
-                <a class="btn btn-add btn-sm" th:href="@{/create}" title="Thêm"><i class="fas fa-plus"></i>
+                <a class="btn btn-add btn-sm" th:href="@{/admin/product/create}" title="Thêm"><i
+                    class="fas fa-plus"></i>
                   Tạo mới sản phẩm</a>
               </div>
               <div class="col-sm-2">
@@ -72,70 +73,19 @@
                     <td th:text="${product.price}"></td>
                     <td th:text="${product.category.name}"></td>
                     <td>
-                      <form style="padding: 0;height: 31px;" class="btn btn-primary btn-sm trash" th:action="@{/delete}"
-                        method="post">
-                        <input type="hidden" th:name="id" th:value="${product.id}" />
-                        <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa">
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </form>
-                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" data-toggle="modal"
-                        th:data-target="'#ModalUP-' + ${product.id}">
-                        <i class="fas fa-edit"></i>
+                      <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                        onclick="myFunction(this, '${product.id}')">
+                        <i class="fas fa-trash-alt"></i>
                       </button>
+                      <form id="${product.id}" style="padding: 0;height: 31px;" class="btn btn-primary btn-sm trash"
+                        th:action="@{/admin/product/delete}" method="post">
+                        <input type="hidden" th:name="id" th:value="${product.id}" />
+                      </form>
+                      <a th:href="@{/admin/product/update/{id}(id=${product.id})}" class="btn btn-primary btn-sm edit"
+                        title="Sửa"><i class="fas fa-edit"></i></a>
+
                     </td>
                   </tr>
-
-                  <div class="modal fade" th:id="'ModalUP-' + ${product.id}" tabindex="-1" role="dialog"
-                    aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-
-                        <div class="modal-body">
-                          <div class="row">
-                            <div class="form-group  col-md-12">
-                              <span class="thong-tin-thanh-toan">
-                                <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="form-group col-md-6">
-                              <label class="control-label">Mã sản phẩm </label>
-                              <input class="form-control" type="number" th:value="${product.id}">
-                            </div>
-                            <div class="form-group col-md-6">
-                              <label class="control-label">Tên sản phẩm</label>
-                              <input class="form-control" type="text" required th:value="${product.name}">
-                            </div>
-                            <div class="form-group col-md-6">
-                              <label class="control-label">Giá bán</label>
-                              <input class="form-control" type="text" th:value="${product.price}">
-                            </div>
-                            <div class="form-group col-md-6">
-                              <label for="exampleSelect1" class="control-label">Danh mục</label>
-                              <select class="form-control" id="exampleSelect1">
-                                <option th:each="category : ${categories}" th:value="${category.name}"
-                                  th:text="${category.name}" th:selected="${category.name == product.category.name}">
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <BR>
-                          <a href="#" style="    float: right;
-    font-weight: 600;
-    color: #ea0000;">Chỉnh sửa sản phẩm nâng cao</a>
-                          <BR>
-                          <BR>
-                          <button class="btn btn-save" type="submit">Lưu lại</button>
-                          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                          <BR>
-                        </div>
-                        <div class="modal-footer">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </th:block>
               </tbody>
             </table>
@@ -144,7 +94,21 @@
       </div>
     </div>
   </main>
-
+  <script>
+    function myFunction(button, productId) {
+      event.preventDefault();
+      swal({
+        title: "Cảnh báo",
+        text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
+        buttons: ["Hủy bỏ", "Đồng ý"],
+      }).then((willDelete) => {
+        if (willDelete) {
+          var form = button.parentElement.querySelector("form");
+          form.submit();
+        }
+      });
+    }
+  </script>
   <script src="/js/jquery-3.2.1.min.js"></script>
   <script src="/js/popper.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>

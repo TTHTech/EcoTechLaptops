@@ -36,29 +36,46 @@ public class AdminController {
         List<Category> categories = categoryService.getAllCategory();
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
-
         return "admin/product";
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/admin/product/delete")
     public String handleDeleteProduct(@RequestParam("id") Long id) {
         productService.deleteProduct(id);
-        return "redirect:/product";
+        return "redirect:/admin/product";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/admin/product/create")
     public String handleCreatProduct(Model model) {
+        List<Category> categories = categoryService.getAllCategory();
+        model.addAttribute("categories", categories);
         model.addAttribute("newProduct", new Product());
-        return "admin/create";
+        return "admin/createProduct";
     }
 
-    @PostMapping("/update")
-    public String handleUpdateProduct(@ModelAttribute Product product) {
+    @PostMapping("/admin/product/update")
+    public String handleUpdateProduct(@ModelAttribute("newProduct") Product product,
+            @RequestParam("imageProduct") MultipartFile file) {
         Product currentProduct = productService.getProductById(product.getId());
         currentProduct.setName(product.getName());
         currentProduct.setPrice(product.getPrice());
+        currentProduct.setDescription(product.getDescription());
+        Category category = categoryService.findByName(product.getCategory().getName());
+        String imageProduct = this.uploadService.handleSaveUploadFile(file, "product");
+        currentProduct.setImage(imageProduct);
+        currentProduct.setCategory(category);
         productService.saveProduct(currentProduct);
-        return "redirect:/product";
+        return "redirect:/admin/product";
+    }
+
+    @GetMapping("/admin/product/update/{id}")
+    public String pageUpdateProduct(@PathVariable("id") Long id, Model model) {
+        Product currentProduct = productService.getProductById(id);
+        List<Category> categories = categoryService.getAllCategory();
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("newProduct", currentProduct);
+        return "admin/updateProduct";
     }
 
     @GetMapping("/admin/category")
@@ -70,7 +87,14 @@ public class AdminController {
 
     @PostMapping("/admin/category/delete")
     public String handleDeleteCategory(@RequestParam("id") Long id) {
-        categoryService.deleteCategory(id);
+        Category category = categoryService.getCategoryById(id);
+        if (category != null) {
+            List<Product> products = productService.getProductsByCategoryId(id);
+            for (Product product : products) {
+                productService.deleteProduct(product.getId());
+            }
+            categoryService.deleteCategory(id);
+        }
         return "redirect:/admin/category";
     }
 
@@ -85,7 +109,26 @@ public class AdminController {
             @RequestParam("imageCategory") MultipartFile file) {
         String image = this.uploadService.handleSaveUploadFile(file, "category");
         category.setImage(image);
-        categoryService.createCategory(category);
+        categoryService.saveCategory(category);
         return "redirect:/admin/category";
     }
+
+    @GetMapping("/admin/category/update/{id}")
+    public String pageUpdateCategory(@PathVariable("id") Long id, Model model) {
+        Category currentCategory = categoryService.getCategoryById(id);
+        model.addAttribute("newCategory", currentCategory);
+        return "admin/updateCategory";
+    }
+
+    @PostMapping("/admin/category/update")
+    public String handleUpdateCategory(@ModelAttribute("newCategory") Category category,
+            @RequestParam("imageProduct") MultipartFile file) {
+        Category currentCategory = categoryService.getCategoryById(category.getId());
+        currentCategory.setName(category.getName());
+        String imageCategory = this.uploadService.handleSaveUploadFile(file, "category");
+        currentCategory.setImage(imageCategory);
+        categoryService.saveCategory(currentCategory);
+        return "redirect:/admin/category";
+    }
+
 }
