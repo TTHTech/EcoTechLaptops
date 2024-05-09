@@ -55,6 +55,24 @@ public class CartController {
         return "redirect:/cart/getCart";
     }
 
+    @GetMapping("/checkout")
+    public String checkout(HttpSession session, Model model){
+        Customer customer = (Customer) session.getAttribute("customer");
+        Cart cart = (Cart) session.getAttribute("cart");
+        System.out.println(">>check session when checkout333: cus: " + customer.getId() + ", cart: " + cart.getId());
+
+        //coi trong cart co gi khong
+        if (cart.getItems().size() == 0){
+//            model.addAttribute("emptyCart", true);
+            return "redirect:/home";
+        }
+        model.addAttribute("customer", customer);
+        model.addAttribute("cart", cart);
+
+        return "home/checkout";
+    }
+
+
 }
 
 
