@@ -33,8 +33,8 @@ public class AdminOrderController {
     public String openUdateOrderStatusPage(@PathVariable int id, Model model) {
         Order order = orderService.getOrderById(id);
         model.addAttribute("order", order);
-        List<Item> items = order.getCart().getItems();
-        model.addAttribute("items", items);
+        //List<Item> items = order.getCart().getItems();
+        //model.addAttribute("items", items);
         return "admin/update-order-status";
     }
 
