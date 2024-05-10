@@ -1,12 +1,17 @@
 package org.example.test.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.example.test.model.Category;
+import org.example.test.model.Customer;
 import org.example.test.model.Product;
 import org.example.test.service.CategoryService;
 import org.example.test.service.ProductService;
 import org.example.test.service.UploadService;
+import org.example.test.service.CustomerService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +22,15 @@ public class AdminController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final UploadService uploadService;
+    private final CustomerService customerService;
 
-    public AdminController(UploadService uploadService, CategoryService categoryService,
+    public AdminController(CustomerService customerService, UploadService uploadService,
+            CategoryService categoryService,
             ProductService productService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.uploadService = uploadService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/admin")
@@ -37,6 +45,47 @@ public class AdminController {
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         return "admin/product";
+    }
+
+    @PostMapping("/admin/product")
+    public String adminProductPage(@RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "productName", required = false) String productName,
+            Model model) {
+        List<Product> products;
+        if (productName != null && !productName.isEmpty()) {
+            // Nếu tìm theo tên sản phẩm
+            products = productService.getProductsByName(productName);
+        } else if (categoryId != null) {
+            // Nếu tìm theo danh mục
+            products = productService.getProductsByCategoryId(categoryId);
+        } else {
+            // Không có thông tin tìm kiếm, hiển thị tất cả sản phẩm
+            products = productService.getAllProduct();
+        }
+        List<Category> categories = categoryService.getAllCategory();
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        return "admin/product";
+    }
+
+    @PostMapping("/admin/category")
+    public String adminCategoryPage(
+            @RequestParam(value = "categoryName", required = false) String categoryName,
+            Model model) {
+        List<Category> categories;
+        if (categoryName == null || categoryName.isEmpty()) {
+            categories = categoryService.getAllCategory();
+        } else
+            categories = this.categoryService.getCategoriesByName(categoryName);
+        model.addAttribute("categories", categories);
+        Map<Long, Integer> productCountMap = new HashMap<>();
+        for (Category category : categories) {
+            int productCount = productService.getProductCountByCategoryId(category.getId());
+            productCountMap.put(category.getId(), productCount);
+        }
+        model.addAttribute("categories", categories);
+        model.addAttribute("productCountMap", productCountMap);
+        return "admin/category";
     }
 
     @PostMapping("/admin/product/delete")
@@ -62,7 +111,8 @@ public class AdminController {
         currentProduct.setDescription(product.getDescription());
         Category category = categoryService.findByName(product.getCategory().getName());
         String imageProduct = this.uploadService.handleSaveUploadFile(file, "product");
-        currentProduct.setImage(imageProduct);
+        if (imageProduct != "")
+            currentProduct.setImage(imageProduct);
         currentProduct.setCategory(category);
         productService.saveProduct(currentProduct);
         return "redirect:/admin/product";
@@ -81,7 +131,13 @@ public class AdminController {
     @GetMapping("/admin/category")
     public String adminCategoryPage(Model model) {
         List<Category> categories = categoryService.getAllCategory();
+        Map<Long, Integer> productCountMap = new HashMap<>();
+        for (Category category : categories) {
+            int productCount = productService.getProductCountByCategoryId(category.getId());
+            productCountMap.put(category.getId(), productCount);
+        }
         model.addAttribute("categories", categories);
+        model.addAttribute("productCountMap", productCountMap);
         return "admin/category";
     }
 
@@ -126,9 +182,16 @@ public class AdminController {
         Category currentCategory = categoryService.getCategoryById(category.getId());
         currentCategory.setName(category.getName());
         String imageCategory = this.uploadService.handleSaveUploadFile(file, "category");
-        currentCategory.setImage(imageCategory);
+        if (imageCategory != "")
+            currentCategory.setImage(imageCategory);
         categoryService.saveCategory(currentCategory);
         return "redirect:/admin/category";
     }
 
+    @GetMapping("/admin/customer")
+    public String adminUserPage(Model model) {
+        List<Customer> customers = customerService.getAllCustomer();
+        model.addAttribute("customers", customers);
+        return "admin/customer";
+    }
 }

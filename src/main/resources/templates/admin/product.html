@@ -50,8 +50,38 @@
                 <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
                     class="fas fa-trash-alt"></i> Xóa tất cả </a>
               </div>
+              <div class="col-sm-2">
+                <form style="display: flex;flex-direction: row;" th:action="@{/admin/product}" method="post">
+
+                  <select style="width: 190px;height: 33px;" class="form-control" name="categoryId">
+                    <option value="">Chọn danh mục</option>
+                    <th:block th:each="category : ${categories}">
+                      <option th:value="${category.id}" th:text="${category.name}"></option>
+                    </th:block>
+                  </select>
+                  <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary">Xem sản phẩm</button>
+
+                  </div>
+
+                </form>
+              </div>
+              <div class="col-sm-2 absolute-position" style="position: absolute;top: 70px ;right: 20px;z-index: 5;">
+                <!-- Form tìm kiếm -->
+                <form style="display: flex; flex-direction: row;border-color: rgb(171, 165, 165);"
+                  th:action="@{/admin/product}" method="post">
+                  <div class="col-sm-2">
+                    <input style="width: 150px;height: 33px;border-radius: 4px;border-color: rgb(171, 165, 165);"
+                      type="text" name="productName" placeholder="Nhập tên sản phẩm">
+                  </div>
+                  <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary">Tìm</button>
+                  </div>
+                </form>
+              </div>
             </div>
             <table class="table table-hover table-bordered" id="sampleTable">
+
               <thead>
                 <tr>
                   <th width="10"><input type="checkbox" id="all"></th>
@@ -62,6 +92,7 @@
                   <th>Danh mục</th>
                   <th>Chức năng</th>
                 </tr>
+
               </thead>
               <tbody>
                 <th:block th:each="product : ${products}">
@@ -123,7 +154,9 @@
   <script type="text/javascript" src="/js/plugins/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="/js/plugins/dataTables.bootstrap.min.js"></script>
   <script type="text/javascript">
-    $('#sampleTable').DataTable();
+    $('#sampleTable').DataTable({
+      searching: false
+    });
     //Thời Gian
     function time() {
       var today = new Date();

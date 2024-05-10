@@ -46,13 +46,15 @@ public class CustomerServiceRegister implements UserDetailsService {
         if (customer == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(customer.getEmail(), customer.getPassword(), Collections.emptyList());
+        return new org.springframework.security.core.userdetails.User(customer.getEmail(), customer.getPassword(),
+                Collections.emptyList());
     }
 
-    public Optional<Customer> getCustomer(long id){
+    public Optional<Customer> getCustomer(long id) {
         return customerRepository.findById(id);
     }
-    public Optional<Customer> getCustomerByEmail(String email){
+
+    public Optional<Customer> getCustomerByEmail(String email) {
         return Optional.ofNullable(customerRepository.findByEmail(email));
     }
 }

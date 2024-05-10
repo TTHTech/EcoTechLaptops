@@ -36,4 +36,12 @@ public class ProductService {
         return this.productRepository.findProductsByCategoryId(id);
     }
 
+    public int getProductCountByCategoryId(long id) {
+        return this.productRepository.countProductByCategoryId(id);
+    }
+
+    public List<Product> getProductsByName(String productName) {
+        return this.productRepository.findProductsByName(productName);
+    }
+
 }
