@@ -55,7 +55,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(customerAuthenticationProvider())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/customer/**", "/register**", "/home/js/**", "/home/css/**", "/home/img/**", "/guest/**").permitAll()
+                        .requestMatchers("/customer/**", "/register**", "/home/js/**", "/home/css/**", "/home/img/**", "/guest/**","/product/detail/**").permitAll()
                         .requestMatchers("/resources/**", "/profile/**", "/change-password").authenticated()  // Ensure /change-password is securely accessible
                         .anyRequest().authenticated())
                 .formLogin(form -> form
