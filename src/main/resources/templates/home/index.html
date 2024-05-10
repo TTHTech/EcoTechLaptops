@@ -51,7 +51,7 @@
                                 <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/register'">Sign up</button>
                             </div>
                             <div th:if="${session.customer != null}">
-                                <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/account'">Account</button>
+                                <a class="dropdown-item" th:href="@{/profile}">Profile</a>
                                 <form action="/logout" method="post">
                                     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                                     <button type="submit" class="dropdown-item">Logout</button>
@@ -180,8 +180,8 @@
                             <a th:href="@{/cart/getCart}" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
-                                    <span th:text="${session.cart.getItems().size()}"/>
-                                </span>
+                                <span th:text="${session.cart.getItems().size()}"/>
+                            </span>
                             </a>
                         </div>
                     </div>
@@ -324,7 +324,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100"  alt="" th:src="@{/images/avatar/{image}(image=${product.image})}">
+                        <img class="img-fluid w-100" th:src="@{/images/avatar/{image}(image=${product.image})}" alt="">
                         <div class="product-action">
 <!--                            đang gán cứng cartID là 1 vào url-->
                             <a class="btn btn-outline-dark btn-square"
@@ -395,7 +395,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" th:src="@{/images/avatar/{image}(image=${product.image})}" alt="">
+                            <img class="img-fluid w-100" th:src="${product.getImage()}" alt="">
                             <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>

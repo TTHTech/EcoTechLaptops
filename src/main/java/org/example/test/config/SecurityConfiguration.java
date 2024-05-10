@@ -55,8 +55,8 @@ public class SecurityConfiguration {
                 .authenticationProvider(customerAuthenticationProvider())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/customer/**", "/register**", "/home/js/**", "/home/css/**", "/home/img/**", "/guest/**").permitAll() // Đảm bảo /guest/** được phép truy cập tự do
-                        .requestMatchers("/resources/**").permitAll()
+                        .requestMatchers("/customer/**", "/register**", "/home/js/**", "/home/css/**", "/home/img/**", "/guest/**").permitAll()
+                        .requestMatchers("/resources/**", "/profile/**", "/change-password").authenticated()  // Ensure /change-password is securely accessible
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -69,9 +69,16 @@ public class SecurityConfiguration {
                         .logoutSuccessHandler(customLogoutSuccessHandler())
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        .permitAll());
+                        .permitAll())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/profile/**"),
+                                new AntPathRequestMatcher("/change-password"))); // Correct way to ignore CSRF for specific endpoints
+
         return http.build();
     }
+
+
 
     @Bean
     public AuthenticationSuccessHandler loginSuccessHandler() {

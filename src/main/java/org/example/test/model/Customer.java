@@ -66,6 +66,14 @@ public class Customer {
         this.address = address;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }

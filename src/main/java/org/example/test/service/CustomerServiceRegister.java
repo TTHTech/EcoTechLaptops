@@ -57,4 +57,6 @@ public class CustomerServiceRegister implements UserDetailsService {
     public Optional<Customer> getCustomerByEmail(String email) {
         return Optional.ofNullable(customerRepository.findByEmail(email));
     }
+
+
 }
