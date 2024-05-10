@@ -14,6 +14,7 @@ public class Customer {
     private String password;
     private String phone;
     private String address;
+    private String image;
     private Date createDate;
     private Date updateDate;
 
