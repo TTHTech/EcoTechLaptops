@@ -144,13 +144,14 @@ public class AdminController {
     @PostMapping("/admin/category/delete")
     public String handleDeleteCategory(@RequestParam("id") Long id) {
         Category category = categoryService.getCategoryById(id);
-        if (category != null) {
-            List<Product> products = productService.getProductsByCategoryId(id);
-            for (Product product : products) {
-                productService.deleteProduct(product.getId());
-            }
-            categoryService.deleteCategory(id);
-        }
+        categoryService.deleteCategory(id);
+        // if (category != null) {
+        // List<Product> products = productService.getProductsByCategoryId(id);
+        // for (Product product : products) {
+        // productService.deleteProduct(product.getId());
+        // }
+        // categoryService.deleteCategory(id);
+        // }
         return "redirect:/admin/category";
     }
 
