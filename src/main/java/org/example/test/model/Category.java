@@ -10,6 +10,15 @@ public class Category {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     private String name;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public long getId() {
         return id;
@@ -27,9 +36,10 @@ public class Category {
         this.name = name;
     }
 
-    public Category(long id, String name) {
+    public Category(long id, String name, String image) {
         this.id = id;
         this.name = name;
+        this.image = image;
     }
 
     public Category(String name) {

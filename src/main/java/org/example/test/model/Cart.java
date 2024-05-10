@@ -11,7 +11,7 @@ public class Cart {
     private long id;
     @OneToOne
     private Customer customer;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Item> items;
 
     public long getId() {
@@ -44,5 +44,12 @@ public class Cart {
     }
 
     public Cart() {
+    }
+    public double getTotalPrice(){
+        double totalPrice = 0;
+        for (int i=0; i<items.size(); i++){
+            totalPrice += items.get(i).getQuantity() * items.get(i).getProduct().getPrice();
+        }
+        return totalPrice;
     }
 }

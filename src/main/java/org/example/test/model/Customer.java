@@ -14,6 +14,7 @@ public class Customer {
     private String password;
     private String phone;
     private String address;
+    private String image;
     private Date createDate;
     private Date updateDate;
 
@@ -63,6 +64,14 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Date getCreateDate() {

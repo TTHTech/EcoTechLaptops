@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceRegister implements UserDetailsService {
@@ -34,6 +35,11 @@ public class CustomerServiceRegister implements UserDetailsService {
         return customerRepository.save(customer);
     }
 
+    public Customer updateCustomer(Customer customer){
+        return customerRepository.save(customer);
+    }
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = customerRepository.findByEmail(username);
@@ -42,4 +48,13 @@ public class CustomerServiceRegister implements UserDetailsService {
         }
         return new org.springframework.security.core.userdetails.User(customer.getEmail(), customer.getPassword(), Collections.emptyList());
     }
+
+    public Optional<Customer> getCustomer(long id){
+        return customerRepository.findById(id);
+    }
+    public Optional<Customer> getCustomerByEmail(String email){
+        return Optional.ofNullable(customerRepository.findByEmail(email));
+    }
+
+
 }
