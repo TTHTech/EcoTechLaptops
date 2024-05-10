@@ -33,4 +33,8 @@ public class CategoryService {
     public Category getCategoryById(Long id) {
         return this.categoryRepository.findCategoryById(id);
     }
+
+    public List<Category> getCategoriesByName(String name) {
+        return this.categoryRepository.findCategoriesByName(name);
+    }
 }
