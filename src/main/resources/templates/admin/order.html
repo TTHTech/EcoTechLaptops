@@ -55,8 +55,8 @@
                 <tr th:each="order : ${orders}">
                   <td width="10"><input type="checkbox" name="check1" value="1"></td>
                   <td>Đơn hàng số <span th:text="${order.id}"></span></td>
-                  <td th:text="${order.cart.customer.name}"></td>
-                  <td th:text="${order.cart.getTotalPrice()}"></td>
+                  <td th:text="${order.customer.name}"></td>
+                  <td th:text="${order.getTotalPrice()}"></td>
                   <td><span class="badge bg-success" th:text="${order.status}"></span></td>
                   <td>
                     <a th:href="@{/admin/order/{id}(id=${order.id})}" class="btn btn-primary btn-sm edit">CẬP NHẬT TRẠNG THÁI</a>
