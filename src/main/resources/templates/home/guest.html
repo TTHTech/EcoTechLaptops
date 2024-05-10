@@ -464,7 +464,8 @@
                         </div>
                     </div>
                     <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href=""><span th:text="${product.getName()}"></span></a>
+                        <a class="h6 text-decoration-none text-truncate" th:href="@{/product/detail/{id}(id=${product.id})}">
+                            <span th:text="${product.name}"></span>
                         <div class="d-flex align-items-center justify-content-center mt-2">
                             <h5><span th:text="@{'$' + ${product.getPrice()}}"></span></h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
                         </div>
