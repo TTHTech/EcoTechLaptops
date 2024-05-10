@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
@@ -18,7 +20,9 @@ public class CustomerService {
     public Customer findById(Long id) {
         return customerRepository.findById(id).orElse(null);
     }
-
+    public List<Customer> getAllCustomer() {
+        return this.customerRepository.findAll();
+    }
     public Customer updateCustomer(Long id, Customer updatedCustomer) {
         Customer existingCustomer = findById(id);
         if (existingCustomer != null) {
