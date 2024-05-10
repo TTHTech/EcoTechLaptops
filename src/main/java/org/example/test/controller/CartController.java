@@ -34,7 +34,6 @@ public class CartController {
 
         // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
         cart = cartService.findCart(cart.getCustomer());
-
         // Cập nhật giỏ hàng mới vào phiên làm việc
         session.setAttribute("cart", cart);
 
@@ -48,7 +47,6 @@ public class CartController {
 
         // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
         cart = cartService.findCart(cart.getCustomer());
-
         // Cập nhật giỏ hàng mới vào phiên làm việc
         session.setAttribute("cart", cart);
 

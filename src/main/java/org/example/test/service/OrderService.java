@@ -27,9 +27,9 @@ public class OrderService {
     @Autowired
     private CartRepository cartRepository;
   
-    public String createOrder(Cart cart, Customer customer, String paymentMethod){
+    public String createOrder(Cart cart, Customer customer, String paymentMethod, String paymentStatus){
         //tao order moi
-        Order order = new Order(customer, cart.getItems(), "pending approval", new Date(), paymentMethod);
+        Order order = new Order(customer, cart.getItems(), "pending approval", new Date(), paymentMethod, paymentStatus);
         orderRepository.save(order);
 
         //xoa list item ra khoi cart
