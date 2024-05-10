@@ -105,4 +105,13 @@ public class Order {
         }
         return totalPrice;
     }
+
+    // đếm số lượng sản phẩm có trong đơn hàng này
+    public int getTheNumberOfProduct() {
+        int count = 0;
+        for (Item item : purchasedItems){
+            count = count + item.getQuantity();
+        }
+        return count;
+    }
 }

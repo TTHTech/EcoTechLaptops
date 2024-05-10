@@ -46,49 +46,50 @@
                         TÀI KHOẢN KHÁCH HÀNG
                     </div>
 
+                    <div class="row element-button">
+                        <div class="col-sm-2">
+                            <a class="btn btn-add btn-sm" th:href="@{/admin/statistics}">TẤT CẢ</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-add btn-sm" th:href="@{/admin/statistics/day}">THEO NGÀY</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-add btn-sm" th:href="@{/admin/statistics/week}">THEO TUẦN</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-add btn-sm" th:href="@{/admin/statistics/month}">THEO THÁNG</a>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label class="control-label">Khách hàng</label>
-                            <input class="form-control" type="text" readonly>
+                            <label class="control-label">Lọc theo</label>
+                            <input class="form-control" type="text" th:value="${filterBy}" readonly>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">Mã đơn hàng</label>
-                            <input class="form-control" type="number" readonly>
+                            <!--tạo khoảng trống bên phải-->
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">Ngày tạo</label>
-                            <input class="form-control" type="text" readonly>
+                            <label class="control-label">Số tiền thu được</label>
+                            <input class="form-control" type="text" th:value="${totalPriceOfAllOrders}" readonly>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">Phương pháp thanh toán</label>
-                            <input class="form-control" type="text" readonly>
+                            <label class="control-label">Tổng số sản phẩm đã bán được</label>
+                            <input class="form-control" type="text" th:value="${theNumberOfAllProductsSold}" readonly>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Trạng thái</label>
-                            <input class="form-control" type="text">
-                        </div>
-
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                             <tr>
-                                <th width="10"><input type="checkbox" id="all"></th>
-                                <th>ID đơn hàng</th>
-                                <th>Khách hàng</th>
-                                <th>Tổng tiền</th>
-                                <th>Tình trạng</th>
-                                <th>Tính năng</th>
+                                <th>ID sản phẩm</th>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng đã bán</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="order : ${orders}">
-                                <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                <td>Đơn hàng số <span th:text="${order.id}"></span></td>
-                                <td th:text="${order.cart.customer.name}"></td>
-                                <td th:text="${order.cart.getTotalPrice()}"></td>
-                                <td><span class="badge bg-success" th:text="${order.status}"></span></td>
-                                <td>
-                                    <a th:href="@{/admin/order/{id}(id=${order.id})}" class="btn btn-primary btn-sm edit">CẬP NHẬT TRẠNG THÁI</a>
-                                </td>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.id}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.countTheNumberOfProductSold(orders)}"></td>
                             </tr>
                             </tbody>
                         </table>

@@ -56,4 +56,47 @@ public class OrderService {
     public Order updateOrder(Order order) {
         return orderRepository.save(order);
     }
+
+    // tính tổng tiền của tất cả các hóa đơn có trong database
+    public double getTotalPriceOfAllOrders() {
+        double total = 0;
+        for (Order order : getAllOrders()) {
+            total = total + order.getTotalPrice();
+        }
+        return total;
+    }
+
+    /*
+    tính tổng tiền của tất cả các hóa đơn trong database
+    nhưng chỉ lấy hóa đơn ở hiện tại
+    */
+    public double getTotalPriceOfAllOrdersByDay() {
+        double total = 0;
+        for (Order order : getAllOrdersByDay()) {
+            total = total + order.getTotalPrice();
+        }
+        return total;
+    }
+
+    // đếm số lượng của tất cả sản phẩm có trong tất cả hóa đơn
+    public int getTheNumberOfProductsSoldInAllOrders() {
+        int count = 0;
+        for (Order order : getAllOrders()) {
+            count = count + order.getTheNumberOfProduct();
+        }
+        return count;
+    }
+
+    // đếm số lượng của tất cả sản phẩm có trong tất cả hóa đơn theo ngày
+    public int getTheNumberOfProductsSoldInAllOrdersByDay() {
+        int count = 0;
+        for (Order order : getAllOrdersByDay()) {
+            count = count + order.getTheNumberOfProduct();
+        }
+        return count;
+    }
+
+    public List<Order> getAllOrdersByDay() {
+        return orderRepository.findOrdersByDate("2024-05-10");
+    }
 }
