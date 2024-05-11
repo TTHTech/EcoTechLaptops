@@ -202,6 +202,9 @@
                             </div>
                         </div>
                     </div>
+                    <div th:if="${error}" class="alert alert-danger" role="alert">
+                        <span th:text="${error}"></span>
+                    </div>
                     <button class="btn btn-save" type="submit">Lưu lại</button>
                     <a class="btn btn-cancel" href="product.html">Hủy bỏ</a>
                 </form>

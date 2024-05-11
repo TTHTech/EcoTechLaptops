@@ -18,6 +18,10 @@ public class Product {
     private Category category;
     private String description;
     private String image;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items;
+    @ManyToOne
+    private Favorite favorite;
 
     public long getId() {
         return id;
