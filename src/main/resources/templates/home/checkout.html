@@ -272,11 +272,23 @@
 
             <script>
                 function checkPayment() {
+                    var phoneInput = document.querySelector('input[name="phone_input"]');
+                    var addressInput = document.querySelector('input[name="address_input"]');
+                    var provinceInput = document.querySelector('select[name="province_input"]');
                     var paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-                    if (paymentMethod === "direct_check") {
-                        alert("Thank you for your order!");
+
+                    // Kiểm tra xem các trường nhập liệu đã được điền đầy đủ và hợp lệ
+                    if (!phoneInput.validity.valid || !addressInput.validity.valid || !provinceInput.validity.valid) {
+                        alert("Please fill in all required fields with valid data.");
+                    } else {
+                        // Nếu tất cả các trường nhập liệu đã được điền đầy đủ và hợp lệ, kiểm tra phương thức thanh toán
+                        if (paymentMethod === "direct_check") {
+                            alert("Thank you for your order!");
+                        }
                     }
                 }
+
+
             </script>
 
 <!--            Products start       -->
