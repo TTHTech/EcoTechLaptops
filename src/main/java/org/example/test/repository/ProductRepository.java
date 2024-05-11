@@ -21,4 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //search:
     List<Product> findByNameContaining(String searchInput);
 
+    boolean existsProductByNameAndCategoryName(String name, String name2);
+
 }

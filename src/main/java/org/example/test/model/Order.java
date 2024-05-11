@@ -90,20 +90,28 @@ public class Order {
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
-
     public String getPaymentStatus() {
         return paymentStatus;
     }
-
+    
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
-    private double getTotalPrice(){
+    public double getTotalPrice(){
         double totalPrice = 0;
         for (Item item : purchasedItems){
             totalPrice += item.getProduct().getPrice() * item.getQuantity();
         }
         return totalPrice;
+    }
+
+    // đếm số lượng sản phẩm có trong đơn hàng này
+    public int getTheNumberOfProduct() {
+        int count = 0;
+        for (Item item : purchasedItems){
+            count = count + item.getQuantity();
+        }
+        return count;
     }
 }
