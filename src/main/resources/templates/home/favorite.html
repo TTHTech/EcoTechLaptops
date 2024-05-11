@@ -170,16 +170,22 @@
                         <a href="" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a href="" class="btn px-0">
+                        <!-- Favorites Link -->
+                        <a th:href="@{/favorite/getFavorite}" href="" class="btn px-0">
                             <i class="fas fa-heart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
+                                <span th:text="${session.favorite?.favoriteProducts != null ? session.favorite.favoriteProducts.size() : 0}"></span>
+                                </span>
                         </a>
+
+                        <!-- Cart Link -->
                         <a th:href="@{/cart/getCart}" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
-                                    <span th:text="${session.cart.getItems().size()}"/>
+                                <span th:text="${session.cart.getItems().size()}"/>
                                 </span>
                         </a>
+
                     </div>
                 </div>
             </nav>
@@ -196,7 +202,7 @@
             <nav class="breadcrumb bg-light mb-30">
                 <a class="breadcrumb-item text-dark" href="#">Home</a>
                 <a class="breadcrumb-item text-dark" href="#">Shop</a>
-                <span class="breadcrumb-item active">Shopping Cart</span>
+                <span class="breadcrumb-item active">Favorite</span>
             </nav>
         </div>
     </div>
@@ -251,9 +257,12 @@
                     <td class="align-middle" th:text="${product.price}">$150</td>
                     <td class="align-middle" th:text="${product.category.name}">Category Name</td>
                     <td class="align-middle">
-                        <button class="btn btn-primary px-3">
-                            <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
-                        </button>
+                        <form th:action="@{'/favorite/addToCart/' + ${product.id}}" method="post">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/> <!-- Bảo mật CSRF -->
+                            <button type="submit" class="btn btn-primary px-3">
+                                <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
+                            </button>
+                        </form>
                     </td>
                     <td class="align-middle">
                         <button class="btn btn-sm btn-danger" th:attr="onclick=|removeProduct('${product.id}')|">
