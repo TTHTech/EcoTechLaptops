@@ -1,15 +1,19 @@
 package org.example.test.controller;
 
+import java.util.List;
+
 import org.example.test.model.Category;
 import org.example.test.model.Product;
 import org.example.test.service.CategoryService;
 import org.example.test.service.ProductService;
 import org.example.test.service.UploadService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -26,9 +30,15 @@ public class AdminProductController {
     }
 
     @PostMapping("/admin/product/create")
-    public String handleCreateProduct(@ModelAttribute("newProduct") Product product,
+    public String handleCreateProduct(@ModelAttribute("newProduct") Product product, Model model,
             @RequestParam("imageProduct") MultipartFile file) {
-
+        if (productService.isProductExistsInCategory(product.getName(), product.getCategory().getName())) {
+            model.addAttribute("error", "Tên sản phẩm đã tồn tại trong danh mục này!");
+            List<Category> categories = categoryService.getAllCategory();
+            model.addAttribute("categories", categories);
+            model.addAttribute("newProduct", new Product());
+            return "admin/createProduct"; // Trả về trang tạo sản phẩm với thông báo lỗi
+        }
         String imageProduct = this.uploadService.handleSaveUploadFile(file, "product");
         product.setImage(imageProduct);
         double stringPrice = product.getPrice();
