@@ -1,15 +1,9 @@
 package org.example.test.controller;
 
 import jakarta.servlet.http.HttpSession;
-import org.example.test.model.Cart;
-import org.example.test.model.Category;
-import org.example.test.model.Customer;
-import org.example.test.model.Product;
+import org.example.test.model.*;
 import org.example.test.repository.CustomerRepository;
-import org.example.test.service.CartService;
-import org.example.test.service.CategoryService;
-import org.example.test.service.CustomerServiceRegister;
-import org.example.test.service.ProductService;
+import org.example.test.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +22,18 @@ public class HomeController {
     private CategoryService categoryService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private FavoriteService favoriteService;
+
+    @GetMapping("/addToFavorite/{productId}")
+    public String addToFavorite(@PathVariable Long productId, HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customer");
+        Product product = productService.getProductById(productId);
+
+        favoriteService.addProductToFavorites(customer, product);
+
+        return "redirect:/favorite/getFavorite";
+    }
 
     @GetMapping("")
     public String getHomePage(Model model, HttpSession session) {
