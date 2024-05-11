@@ -10,8 +10,6 @@ public class Item {
     @ManyToOne
     private Product product;
     private int quantity;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Order order;
 
     public long getId() {
         return id;

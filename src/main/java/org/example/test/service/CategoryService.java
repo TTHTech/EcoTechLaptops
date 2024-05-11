@@ -41,4 +41,8 @@ public class CategoryService {
     public void deleteAllProduct() {
         this.categoryRepository.deleteAll();
     }
+
+    public boolean isCategoryExists(String name) {
+        return this.categoryRepository.existsCategoryByName(name);
+    }
 }

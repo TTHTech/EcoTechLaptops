@@ -16,8 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class AdminController {
@@ -176,8 +174,13 @@ public class AdminController {
     }
 
     @PostMapping("/admin/category/create")
-    public String handleCreateCategory(@ModelAttribute("newCategory") Category category,
+    public String handleCreateCategory(@ModelAttribute("newCategory") Category category, Model model,
             @RequestParam("imageCategory") MultipartFile file) {
+
+        if (categoryService.isCategoryExists(category.getName())) {
+            model.addAttribute("error", "Tên danh mục đã tồn tại !");
+            return "admin/createCategory";
+        }
         String image = this.uploadService.handleSaveUploadFile(file, "category");
         category.setImage(image);
         categoryService.saveCategory(category);
