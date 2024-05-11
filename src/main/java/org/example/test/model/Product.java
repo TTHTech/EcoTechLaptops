@@ -1,10 +1,13 @@
 package org.example.test.model;
+
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private double price;
