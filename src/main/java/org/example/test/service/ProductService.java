@@ -44,4 +44,8 @@ public class ProductService {
         return this.productRepository.findProductsByName(productName);
     }
 
+    public List<Product> searchProduct(String input){
+        return productRepository.findByNameContaining(input);
+    }
+
 }

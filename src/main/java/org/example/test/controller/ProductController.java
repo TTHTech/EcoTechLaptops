@@ -11,17 +11,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 // Other imports remain the same
 
 @Controller
 @RequestMapping("/product")
-public class ProductDetailController {
+public class ProductController {
 
     private final ProductService productService;
     private final CartService cartService; // Ensure CartService is injected
 
     @Autowired
-    public ProductDetailController(ProductService productService, CartService cartService) {
+    public ProductController(ProductService productService, CartService cartService) {
         this.productService = productService;
         this.cartService = cartService;
     }
@@ -55,5 +57,14 @@ public class ProductDetailController {
         }
 
         return "redirect:/product/detail/" + id;
+    }
+
+    @GetMapping("/search")
+    public String searchProduct(@RequestParam("searchInput") String searchInput, HttpSession session){
+        System.out.println(">>>check search input22: " + searchInput);
+        List<Product> listProductFound = productService.searchProduct(searchInput);
+        session.setAttribute("listProductFound", listProductFound);
+
+        return "redirect:/home/shop";
     }
 }
