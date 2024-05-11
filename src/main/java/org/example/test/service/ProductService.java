@@ -45,8 +45,9 @@ public class ProductService {
     }
 
 
-    public List<Product> searchProduct(String input){
+    public List<Product> searchProduct(String input) {
         return productRepository.findByNameContaining(input);
+    }
 
     public void deleteAllProduct() {
         this.productRepository.deleteAll();
