@@ -3,6 +3,9 @@ package org.example.test.model;
 import java.util.List;
 
 import jakarta.persistence.*;
+import org.example.test.service.OrderService;
+
+import java.util.List;
 
 @Entity(name = "products")
 public class Product {
@@ -73,5 +76,33 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    // đếm số lượng sản phẩm này đã bán được bao nhiêu cái trong tất cả các đơn
+    public int countTheNumberOfProductSold(List<Order> orders) {
+        int count = 0;
+        for (Order order : orders) {
+            List<Item> purchasedItem = order.getPurchasedItems();
+            for (Item item : purchasedItem) {
+                if (this.id == item.getProduct().getId()) {
+                    count = count + item.getQuantity();
+                }
+            }
+        }
+        return count;
+    }
+
+    // đếm số lượng sản phẩm này đã bán được theo ngày
+    public int countTheNumberOfProductSoldByDay(List<Order> ordersByDay) {
+        int count = 0;
+        for (Order order : ordersByDay) {
+            List<Item> purchasedItem = order.getPurchasedItems();
+            for (Item item : purchasedItem) {
+                if (this.id == item.getProduct().getId()) {
+                    count = count + item.getQuantity();
+                }
+            }
+        }
+        return count;
     }
 }
