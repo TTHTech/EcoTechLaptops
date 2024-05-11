@@ -51,7 +51,7 @@
                             <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/register'">Sign up</button>
                         </div>
                         <div th:if="${session.customer != null}">
-                            <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/account'">Account</button>
+                            <a class="dropdown-item" th:href="@{/profile}">Profile</a>
                             <form action="/logout" method="post">
                                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                                 <button type="submit" class="dropdown-item">Logout</button>
@@ -96,9 +96,10 @@
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-            <form action="">
+            <form th:action="@{/product/search}">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for products">
+                    <input type="text" class="form-control" placeholder="Search for products" name="searchInput">
+                    <!--                        <span th:text="${customer.getEmail()}"></span>-->
                     <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -158,7 +159,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
                         <a th:href="@{/home}" class="nav-item nav-link active">Home</a>
-                        <a href="" class="nav-item nav-link">Shop</a>
+                        <a th:href="@{/home/shop}" class="nav-item nav-link">Shop</a>
                         <a href="" class="nav-item nav-link">Shop Detail</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
@@ -219,9 +220,10 @@
                 </thead>
                 <tbody class="align-middle">
                 <tr th:each="item, itemStatus : ${cart.getItems()}" th:object="${item}">
-                    <td class="align-middle">
-                        <img th:src="@{/images/avatar/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
-                        <span th:text="${item.getProduct().getName()}">Product Name</span>
+                    <td class="align-middle" style="width: 300px; text-align: left">
+                        <img th:src="@{/images/product/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
+                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: calc(100% - 60px);"
+                                th:text="${item.getProduct().getName()}">Product Name</span>
                     </td>
                     <td class="align-middle" th:text="@{'$' + ${item.getProduct().getPrice()}}">Price</td>
                     <td class="align-middle">

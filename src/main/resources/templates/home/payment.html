@@ -41,10 +41,22 @@
         <div class="col-lg-6 text-center text-lg-right">
             <div class="d-inline-flex align-items-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
+                        <span th:if="${session.customer == null}">My Account</span>
+                        <span th:if="${session.customer != null}">Hello, <span th:text="${session.customer.name}"></span></span>
+                    </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">Sign in</button>
-                        <button class="dropdown-item" type="button">Sign up</button>
+                        <div th:if="${session.customer == null}">
+                            <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/login'">Sign in</button>
+                            <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/register'">Sign up</button>
+                        </div>
+                        <div th:if="${session.customer != null}">
+                            <a class="dropdown-item" th:href="@{/profile}">Profile</a>
+                            <form action="/logout" method="post">
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="btn-group mx-2">
@@ -84,9 +96,10 @@
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-            <form action="">
+            <form th:action="@{/product/search}">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for products">
+                    <input type="text" class="form-control" placeholder="Search for products" name="searchInput">
+                    <!--                        <span th:text="${customer.getEmail()}"></span>-->
                     <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -146,7 +159,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
                         <a th:href="@{/home}" class="nav-item nav-link active">Home</a>
-                        <a href="" class="nav-item nav-link">Shop</a>
+                        <a th:href="@{/home/shop}" class="nav-item nav-link">Shop</a>
                         <a href="" class="nav-item nav-link">Shop Detail</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
@@ -252,13 +265,17 @@
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">BILL</span></h5>
             <div class="bg-dark text-white p-30 mb-5">
                 <div class="border-bottom">
-                    <h6 class="mb-3">Products</h6>
-                    <th:block th:each="item : ${cart.getItems()}" >
-                        <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 10px;">
-                            <img th:src="@{/images/avatar/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
-                            <p><span th:text="${item.getProduct().getName()}"/></p>
-                            <p><span th:text="'x' + ${item.getQuantity()}"></span></p>
-                            <p style="width: 100px; text-align: right"><span th:text="'$' + ${item.product.price * item.quantity}"></span></p>
+                    <h6 class="mb-3 text-white">Products</h6>
+                    <th:block th:each="item : ${cart.getItems()}">
+                        <div class="d-flex align-items-center justify-content-between" style="margin-bottom: 10px; text-align: left;">
+                            <div class="d-flex align-items-center">
+                                <img th:src="@{/images/product/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
+                                <p><span style="display: inline-block; margin-left: 10px; width: 200px" th:text="${item.getProduct().getName()}"></span></p>
+                            </div>
+                            <p style="margin-left: 10px; order: 2;"><span th:text="'$' + ${item.product.price * item.quantity}"></span></p>
+                            <div class="d-flex flex-column align-items-end">
+                                <p style="margin-left: 10px; order: 1;"><span th:text="'x' + ${item.getQuantity()}"></span></p>
+                            </div>
                         </div>
                     </th:block>
                 </div>

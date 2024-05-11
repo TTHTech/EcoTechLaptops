@@ -96,9 +96,10 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                <form th:action="@{/product/search}">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" placeholder="Search for products" name="searchInput">
+                        <!--                        <span th:text="${customer.getEmail()}"></span>-->
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -158,7 +159,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a th:href="@{/home}" class="nav-item nav-link active">Home</a>
-                            <a href="" class="nav-item nav-link">Shop</a>
+                            <a th:href="@{/home/shop}" class="nav-item nav-link">Shop</a>
                             <a href="" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
@@ -211,7 +212,7 @@
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner bg-light">
                         <div class="carousel-item active">
-                            <img class="w-100 h-100" th:src="@{/images/avatar/{image}(image=${product.image})}" alt="Product Image">
+                            <img class="w-100 h-100" th:src="@{/images/product/{image}(image=${product.image})}" alt="Product Image">
                         </div>
                     </div>
                 </div>
