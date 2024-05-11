@@ -1,4 +1,5 @@
 package org.example.test.model;
+
 import jakarta.persistence.*;
 
 @Entity(name = "items")
