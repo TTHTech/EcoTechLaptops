@@ -67,7 +67,7 @@
                                     <input class="form-control" type="text" th:value="${order.paymentMethod}" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="control-label">Trạng thái</label>
+                                    <label class="control-label">Trạng thái đơn hàng</label>
                                     <input class="form-control" type="text" th:field="*{status}">
                                 </div>
                                 <table class="table table-hover table-bordered">
@@ -81,7 +81,7 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="item : ${order.purchasedItems}">
-                                        <td th:text="${item.id}"></td>
+                                        <td th:text="${item.product.id}"></td>
                                         <td th:text="${item.product.name}"></td>
                                         <td th:text="${item.product.price}"></td>
                                         <td th:text="${item.quantity}"></td>
