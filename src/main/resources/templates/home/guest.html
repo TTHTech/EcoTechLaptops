@@ -87,9 +87,10 @@
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-            <form action="">
+            <form th:action="@{/product/search}">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for products">
+                    <input type="text" class="form-control" placeholder="Search for products" name="searchInput">
+                    <!--                        <span th:text="${customer.getEmail()}"></span>-->
                     <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -447,11 +448,11 @@
 <div class="container-fluid pt-5 pb-3">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
     <div class="row px-xl-5">
-        <th:block th:each="product : ${productg}">
+        <th:block th:each="product : ${products}">
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100"  alt="" th:src="@{/resources/images/avatar/{image}(image=${product.image})}">
+                        <img class="img-fluid w-100"  alt="" th:src="@{/resources/images/product/{image}(image=${product.image})}">
                         <div class="product-action">
                             <!--                            đang gán cứng cartID là 1 vào url-->
                             <a class="btn btn-outline-dark btn-square"

@@ -44,4 +44,18 @@ public class ProductService {
         return this.productRepository.findProductsByName(productName);
     }
 
+
+    public List<Product> searchProduct(String input) {
+        return productRepository.findByNameContaining(input);
+    }
+
+    public void deleteAllProduct() {
+        this.productRepository.deleteAll();
+    }
+
+    public boolean isProductExistsInCategory(String name, String name2) {
+        return this.productRepository.existsProductByNameAndCategoryName(name, name2);
+
+    }
+
 }

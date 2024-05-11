@@ -37,4 +37,12 @@ public class CategoryService {
     public List<Category> getCategoriesByName(String name) {
         return this.categoryRepository.findCategoriesByName(name);
     }
+
+    public void deleteAllProduct() {
+        this.categoryRepository.deleteAll();
+    }
+
+    public boolean isCategoryExists(String name) {
+        return this.categoryRepository.existsCategoryByName(name);
+    }
 }

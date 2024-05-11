@@ -68,6 +68,18 @@ public class AdminController {
         return "admin/product";
     }
 
+    @PostMapping("admin/product/deleteAll")
+    public String handleDeleteAllProduct() {
+        productService.deleteAllProduct();
+        return "redirect:/admin/product";
+    }
+
+    @PostMapping("admin/category/deleteAll")
+    public String handleDeleteAllCategory() {
+        categoryService.deleteAllProduct();
+        return "redirect:/admin/category";
+    }
+
     @PostMapping("/admin/category")
     public String adminCategoryPage(
             @RequestParam(value = "categoryName", required = false) String categoryName,
@@ -162,8 +174,13 @@ public class AdminController {
     }
 
     @PostMapping("/admin/category/create")
-    public String handleCreateCategory(@ModelAttribute("newCategory") Category category,
+    public String handleCreateCategory(@ModelAttribute("newCategory") Category category, Model model,
             @RequestParam("imageCategory") MultipartFile file) {
+
+        if (categoryService.isCategoryExists(category.getName())) {
+            model.addAttribute("error", "Tên danh mục đã tồn tại !");
+            return "admin/createCategory";
+        }
         String image = this.uploadService.handleSaveUploadFile(file, "category");
         category.setImage(image);
         categoryService.saveCategory(category);
