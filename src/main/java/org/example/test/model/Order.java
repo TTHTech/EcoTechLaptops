@@ -92,8 +92,8 @@ public class Order {
     }
     public String getPaymentStatus() {
         return paymentStatus;
-
-
+    }
+    
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
