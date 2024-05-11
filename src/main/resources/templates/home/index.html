@@ -298,9 +298,9 @@
             <th:block th:each="categorie : ${categories}">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <a class="text-decoration-none" href="">
-                        <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="cat-item img-zoom d-flex align-items-center mb-4">
                             <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                <img class="img-fluid" th:src="${categorie.getImage()}" alt="">
+                                <img class="img-fluid" style="width: 200px; height: 100px" th:src="@{/images/category/{image}(image=${categorie.getImage()})}" alt="">
                             </div>
                             <div class="flex-fill pl-3">
                                 <h6 th:text="${categorie.getName()}"></h6>
@@ -327,12 +327,11 @@
                         <img class="img-fluid w-100" th:src="@{/images/avatar/{image}(image=${product.image})}" alt="">
                         <div class="product-action">
 <!--                            đang gán cứng cartID là 1 vào url-->
-                            <a class="btn btn-outline-dark btn-square"
+                            <a class="btn btn-outline-dark btn-square" onclick="showAlert()"
                                th:href="@{'/home/addToCart/' + ${product.getId()}}">
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                         </div>
                     </div>
@@ -350,12 +349,19 @@
                             <small class="fa fa-star text-primary mr-1"></small>
                             <small>(99)</small>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
             </th:block>
         </div>
     </div>
+
+    <script>
+        function showAlert() {
+            alert("Bạn đã thêm sản phẩm vào giỏ hàng!");
+        }
+    </script>
 
     <!-- Products End -->
 
