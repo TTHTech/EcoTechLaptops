@@ -72,6 +72,9 @@
                             </div>
                         </form>
                     </div>
+                    <div th:if="${error}" class="alert alert-danger" role="alert">
+                        <span th:text="${error}"></span>
+                    </div>
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                             <tr>

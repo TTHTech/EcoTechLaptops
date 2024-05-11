@@ -18,9 +18,11 @@ public class FavoriteService {
 
     @Autowired
     private ProductService productService;
+
     public Favorite findByCustomer(Customer customer) {
         return favoriteRepository.findByCustomer(customer);
     }
+
     @Transactional
     public void addProductToFavorites(Customer customer, Product product) {
         Favorite favorite = favoriteRepository.findByCustomer(customer);
@@ -33,6 +35,7 @@ public class FavoriteService {
             favorite = favoriteRepository.save(favorite);
         }
     }
+
     @Transactional
     public void removeProductFromFavorites(Customer customer, Product product) {
         Favorite favorite = favoriteRepository.findByCustomer(customer);
@@ -40,6 +43,10 @@ public class FavoriteService {
             favorite.getFavoriteProducts().remove(product);
             favoriteRepository.save(favorite);
         }
+    }
+
+    public boolean isProductInUse(long id) {
+        return favoriteRepository.existsByFavoriteProducts_Id(id);
     }
 
 }
