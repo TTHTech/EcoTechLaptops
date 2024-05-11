@@ -174,12 +174,12 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label class="control-label">Tên sản phẩm</label>
-                <input th:field="*{name}" class="form-control" type="text">
+                <input th:field="*{name}" class="form-control" type="text" required>
               </div>
 
               <div class="form-group col-md-3">
                 <label for="exampleSelect1" class="control-label">Danh mục</label>
-                <select th:field="*{category.name}" class="form-control" id="exampleSelect1">
+                <select th:field="*{category.name}" class="form-control" id="exampleSelect1" required>
                   <option value="">-- Chọn danh mục --</option>
                   <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.name}">
                   </option>
@@ -187,13 +187,13 @@
               </div>
               <div class="form-group col-md-3">
                 <label class="control-label">Giá bán</label>
-                <input th:field="*{price}" class="form-control" type="text">
+                <input th:field="*{price}" class="form-control" type="number" required>
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label">Ảnh sản phẩm</label>
                 <div id="myfileupload">
                   <input style="width: 250px;" class="form-control" type="file" id="avatarFile"
-                    accept=".png, .jpg, .jpeg" name="imageProduct" />
+                    accept=".png, .jpg, .jpeg" name="imageProduct" required />
                 </div>
                 <div id="thumbbox">
                   <img height="450" width="400" alt="avatar preview" id="avatarPreview" style="display: none" />
@@ -203,12 +203,12 @@
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label">Mô tả sản phẩm</label>
-                <textarea th:field="*{description}" class="form-control" name="mota" id="mota"></textarea>
+                <textarea th:field="*{description}" class="form-control" name="mota" id="mota" required></textarea>
               </div>
             </div>
           </div>
           <button class="btn btn-save" type="submit">Lưu lại</button>
-          <a class="btn btn-cancel" href="product.html">Hủy bỏ</a>
+          <a class="btn btn-cancel" href="/admin/product">Hủy bỏ</a>
         </form>
       </div>
     </div>

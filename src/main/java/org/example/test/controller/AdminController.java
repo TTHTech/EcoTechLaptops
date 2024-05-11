@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class AdminController {
@@ -66,6 +68,18 @@ public class AdminController {
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         return "admin/product";
+    }
+
+    @PostMapping("admin/product/deleteAll")
+    public String handleDeleteAllProduct() {
+        productService.deleteAllProduct();
+        return "redirect:/admin/product";
+    }
+
+    @PostMapping("admin/category/deleteAll")
+    public String handleDeleteAllCategory() {
+        categoryService.deleteAllProduct();
+        return "redirect:/admin/category";
     }
 
     @PostMapping("/admin/category")

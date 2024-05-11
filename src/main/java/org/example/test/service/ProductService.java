@@ -44,4 +44,8 @@ public class ProductService {
         return this.productRepository.findProductsByName(productName);
     }
 
+    public void deleteAllProduct() {
+        this.productRepository.deleteAll();
+    }
+
 }
