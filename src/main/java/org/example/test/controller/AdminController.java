@@ -11,11 +11,15 @@ import org.example.test.service.CategoryService;
 import org.example.test.service.ProductService;
 import org.example.test.service.UploadService;
 import org.example.test.service.CustomerService;
+import org.example.test.service.ItemService;
+import org.example.test.service.FavoriteService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 @Controller
 public class AdminController {
@@ -23,14 +27,19 @@ public class AdminController {
     private final CategoryService categoryService;
     private final UploadService uploadService;
     private final CustomerService customerService;
+    private final ItemService itemService;
+    private final FavoriteService favoriteService;
 
-    public AdminController(CustomerService customerService, UploadService uploadService,
+    public AdminController(FavoriteService favoriteService, ItemService itemService, CustomerService customerService,
+            UploadService uploadService,
             CategoryService categoryService,
             ProductService productService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.uploadService = uploadService;
         this.customerService = customerService;
+        this.itemService = itemService;
+        this.favoriteService = favoriteService;
     }
 
     @GetMapping("/admin")
@@ -69,7 +78,15 @@ public class AdminController {
     }
 
     @PostMapping("admin/product/deleteAll")
-    public String handleDeleteAllProduct() {
+    public String handleDeleteAllProduct(Model model) {
+        if (productService.areAnyProductsInUse()) {
+            model.addAttribute("error", "Không thể xóa vì có sản phẩm đang được sử dụng!");
+            List<Product> products = productService.getAllProduct();
+            List<Category> categories = categoryService.getAllCategory();
+            model.addAttribute("products", products);
+            model.addAttribute("categories", categories);
+            return "admin/product";
+        }
         productService.deleteAllProduct();
         return "redirect:/admin/product";
     }
@@ -101,7 +118,16 @@ public class AdminController {
     }
 
     @PostMapping("/admin/product/delete")
-    public String handleDeleteProduct(@RequestParam("id") Long id) {
+    public String handleDeleteProduct(@RequestParam("id") Long id, Model model) {
+        if (productService.isProductInUse(id)) {
+
+            model.addAttribute("error", "Không thể xóa sản phẩm bởi vì sản phẩm đang được sử dụng!");
+            List<Product> products = productService.getAllProduct();
+            List<Category> categories = categoryService.getAllCategory();
+            model.addAttribute("products", products);
+            model.addAttribute("categories", categories);
+            return "admin/product";
+        }
         productService.deleteProduct(id);
         return "redirect:/admin/product";
     }
@@ -118,16 +144,19 @@ public class AdminController {
     public String handleUpdateProduct(@ModelAttribute("newProduct") Product product, Model model,
             @RequestParam("imageProduct") MultipartFile file) {
         Product currentProduct = productService.getProductById(product.getId());
-        if (!currentProduct.getName().equals(product.getName())
-                && productService.isProductExistsInCategory(product.getName(), product.getCategory().getName())) {
-            // Nếu trùng, thêm thông báo lỗi và trả về trang cập nhật sản phẩm với thông báo
-            // lỗi
-            model.addAttribute("error", "Tên sản phẩm đã tồn tại trong danh mục này!");
-            List<Category> categories = categoryService.getAllCategory();
-            model.addAttribute("categories", categories);
-            model.addAttribute("newProduct", product);
-            return "admin/updateProduct";
+        if (!currentProduct.getName().equals(product.getName())) {
+            if (!currentProduct.getName().equals(product.getName())
+                    && productService.isProductExistsInCategory(product.getName(), product.getCategory().getName())) {
+                // Nếu trùng, thêm thông báo lỗi và trả về trang cập nhật sản phẩm với thông báo
+                // lỗi
+                model.addAttribute("error", "Tên sản phẩm đã tồn tại trong danh mục này!");
+                List<Category> categories = categoryService.getAllCategory();
+                model.addAttribute("categories", categories);
+                model.addAttribute("newProduct", product);
+                return "admin/updateProduct";
+            }
         }
+
         currentProduct.setName(product.getName());
         currentProduct.setPrice(product.getPrice());
         currentProduct.setDescription(product.getDescription());
@@ -164,16 +193,41 @@ public class AdminController {
     }
 
     @PostMapping("/admin/category/delete")
-    public String handleDeleteCategory(@RequestParam("id") Long id) {
+    public String handleDeleteCategory(@RequestParam("id") Long id, Model model) {
         Category category = categoryService.getCategoryById(id);
-        categoryService.deleteCategory(id);
-        // if (category != null) {
-        // List<Product> products = productService.getProductsByCategoryId(id);
-        // for (Product product : products) {
-        // productService.deleteProduct(product.getId());
-        // }
-        // categoryService.deleteCategory(id);
-        // }
+        if (category != null) {
+            List<Product> products = productService.getProductsByCategoryId(id);
+            boolean isValid = true; // Biến để kiểm tra tất cả sản phẩm có hợp lệ không
+            // Kiểm tra từng sản phẩm
+            for (Product product : products) {
+                if (itemService.isProductInUse(product.getId()) || favoriteService.isProductInUse(product.getId())) {
+                    // Nếu có ít nhất một sản phẩm không hợp lệ, đặt biến isValid thành false và
+                    // thoát khỏi vòng lặp
+                    isValid = false;
+                    break;
+                }
+            }
+            // Nếu tất cả sản phẩm đều hợp lệ, bắt đầu quá trình xóa từng sản phẩm
+            if (isValid) {
+                for (Product product : products) {
+                    productService.deleteProduct(product.getId());
+                }
+                // Sau khi xóa tất cả sản phẩm, xóa danh mục
+                categoryService.deleteCategory(id);
+            } else {
+                // Nếu có ít nhất một sản phẩm không hợp lệ, hiển thị thông báo lỗi
+                model.addAttribute("error", "Không thể xóa vì có sản phẩm của danh mục đang được sử dụng!");
+                List<Category> categories = categoryService.getAllCategory();
+                Map<Long, Integer> productCountMap = new HashMap<>();
+                for (Category categoryShow : categories) {
+                    int productCount = productService.getProductCountByCategoryId(categoryShow.getId());
+                    productCountMap.put(categoryShow.getId(), productCount);
+                }
+                model.addAttribute("categories", categories);
+                model.addAttribute("productCountMap", productCountMap);
+                return "admin/category";
+            }
+        }
         return "redirect:/admin/category";
     }
 
@@ -208,13 +262,14 @@ public class AdminController {
     public String handleUpdateCategory(@ModelAttribute("newCategory") Category category, Model model,
             @RequestParam("imageProduct") MultipartFile file) {
         Category currentCategory = categoryService.getCategoryById(category.getId());
-        if (!currentCategory.getName().equals(category.getName())
-                && categoryService.isCategoryExists(category.getName())) {
-            model.addAttribute("error", "Tên danh mục đã tồn tại !");
-            model.addAttribute("newCategory", category);
-            return "admin/updateCategory";
+        if (!currentCategory.getName().equals(category.getName())) {
+            if (!currentCategory.getName().equals(category.getName())
+                    && categoryService.isCategoryExists(category.getName())) {
+                model.addAttribute("error", "Tên danh mục đã tồn tại !");
+                model.addAttribute("newCategory", category);
+                return "admin/updateCategory";
+            }
         }
-
         currentCategory.setName(category.getName());
         String imageCategory = this.uploadService.handleSaveUploadFile(file, "category");
         if (imageCategory != "")

@@ -23,4 +23,8 @@ public class ItemService {
     public void deleteById(long id) {
         itemRepository.deleteById(id);
     }
+
+    public boolean isProductInUse(long id) {
+        return itemRepository.existsByProduct_Id(id);
+    }
 }
