@@ -9,6 +9,7 @@ import org.example.test.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -114,6 +115,15 @@ public class CartService {
             }
         }
         return null;
+    }
+
+    //xoa het lineItem ra khoi cart
+    public String deleteAllItems(Cart cart){
+        List<Item> newList = new ArrayList<>();
+        cart.setItems(newList);
+        cartRepository.save(cart);
+
+        return "Deleted all Item from cart with id=" + cart.getId();
     }
 
 }
