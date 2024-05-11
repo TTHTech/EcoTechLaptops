@@ -330,7 +330,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" alt="">
+                        <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" alt="" style="height: 325px; width:325px; object-fit: cover;">
                         <div class="product-action">
 <!--                            đang gán cứng cartID là 1 vào url-->
                             <a class="btn btn-outline-dark btn-square" onclick="showAlert()"
@@ -408,11 +408,11 @@
     <div class="container-fluid pt-5 pb-3">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
         <div class="row px-xl-5">
-            <th:block th:each="product : ${featureProducts}">
+            <th:block th:each="product : ${products}">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" alt="">
+                            <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" alt="" style="height: 325px; width:325px; object-fit: cover;">
                             <div class="product-action">
                                 <!--                            đang gán cứng cartID là 1 vào url-->
                                 <a class="btn btn-outline-dark btn-square" onclick="showAlert()"

@@ -44,19 +44,21 @@ public class HomeController {
         List<Product> productList = (List<Product>) session.getAttribute("products");
         List<Category> categoryList = (List<Category>) session.getAttribute("categories");
 
-        // Tạo một bản sao của danh sách sản phẩm gốc
-        List<Product> featureProduct = new ArrayList<>(productList);
         // Trộn danh sách sản phẩm
-        Collections.shuffle(featureProduct, new Random());
-        // Lấy 10 sản phẩm đầu tiên từ danh sách đã trộn
-        List<Product> randomProducts = featureProduct.subList(0, Math.min(8, featureProduct.size()));
+        Collections.shuffle(productList, new Random());
 
-        model.addAttribute("featureProducts", randomProducts);
-        model.addAttribute("products", randomProducts);
+        // Chia danh sách sản phẩm thành hai phần
+        int numberOfProducts = Math.min(50, productList.size()); // Lấy tối đa 32 sản phẩm, nếu có ít hơn thì lấy hết
+        List<Product> featureProducts = productList.subList(0, Math.min(28, numberOfProducts));
+        List<Product> remainingProducts = productList.subList(Math.min(22, numberOfProducts), numberOfProducts);
+
+        model.addAttribute("featureProducts", featureProducts);
+        model.addAttribute("products", remainingProducts);
         model.addAttribute("categories", categoryList);
 
         return "home/index";
     }
+
 
     @GetMapping("/addToCart/{productId}")
     public String addToCart(@PathVariable Long productId, HttpSession session){
