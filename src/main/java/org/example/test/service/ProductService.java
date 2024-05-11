@@ -48,4 +48,8 @@ public class ProductService {
         this.productRepository.deleteAll();
     }
 
+    public boolean isProductExistsInCategory(String name, String name2) {
+        return this.productRepository.existsProductByNameAndCategoryName(name, name2);
+    }
+
 }
