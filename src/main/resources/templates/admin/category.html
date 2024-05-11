@@ -77,8 +77,9 @@
                             <tr>
                                 <th width="10"><input type="checkbox" id="all"></th>
                                 <th>Mã danh mục</th>
-                                <th>Tên danh mục</th>
                                 <th>Ảnh</th>
+                                <th>Tên danh mục</th>
+
                                 <th>Số sản Phẩm</th>
                                 <th>Chức năng</th>
                             </tr>
@@ -89,18 +90,19 @@
                                 <tr>
                                     <td width="10"><input type="checkbox" name="check1" value="1"></td>
                                     <td th:text="${category.id}"></td>
-                                    <td th:text="${category.name}"></td>
                                     <td><img th:src="@{/images/category/{image}(image=${category.image})}" alt=""
                                             width="100px;"></td>
                                     <td>
-                                        <form style="display: flex;flex-direction: row;" th:action="@{/admin/product}"
-                                            method="post">
-                                            <div class="col-sm-2">
-                                                <button th:text="${productCountMap.get(category.id)}" name="categoryId"
-                                                    th:value="${category.id}" type="submit"
-                                                    class="btn btn-primary"></button>
-                                            </div>
-                                        </form>
+                                    <td th:text="${category.name}"></td>
+
+                                    <form style="display: flex;flex-direction: row;" th:action="@{/admin/product}"
+                                        method="post">
+                                        <div class="col-sm-2">
+                                            <button th:text="${productCountMap.get(category.id)}" name="categoryId"
+                                                th:value="${category.id}" type="submit"
+                                                class="btn btn-primary"></button>
+                                        </div>
+                                    </form>
                                     </td>
                                     <td>
                                         <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
