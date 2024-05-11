@@ -1,4 +1,5 @@
 package org.example.test.model;
+
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -10,8 +11,8 @@ public class Favorite {
     private long id;
     @OneToOne
     private Customer customer;
-    @OneToMany
-    private List<Product> favoriteProducts;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "favorite", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products;
 
     public long getId() {
         return id;
@@ -29,19 +30,19 @@ public class Favorite {
         this.customer = customer;
     }
 
-    public List<Product> getFavoriteProducts() {
-        return favoriteProducts;
-    }
-
-    public void setFavouriteProducts(List<Product> favouriteProducts) {
-        this.favoriteProducts = favoriteProducts;
-    }
-
-    public Favorite(Customer customer, List<Product> favoriteProducts) {
+    public Favorite(Customer customer, List<Product> products) {
         this.customer = customer;
-        this.favoriteProducts = favoriteProducts;
+        this.products = products;
     }
 
     public Favorite() {
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

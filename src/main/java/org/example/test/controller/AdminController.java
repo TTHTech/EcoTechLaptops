@@ -107,7 +107,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/product/create")
-    public String handleCreatProduct(Model model) {
+    public String handleCreateProduct(Model model) {
         List<Category> categories = categoryService.getAllCategory();
         model.addAttribute("categories", categories);
         model.addAttribute("newProduct", new Product());
@@ -115,9 +115,19 @@ public class AdminController {
     }
 
     @PostMapping("/admin/product/update")
-    public String handleUpdateProduct(@ModelAttribute("newProduct") Product product,
+    public String handleUpdateProduct(@ModelAttribute("newProduct") Product product, Model model,
             @RequestParam("imageProduct") MultipartFile file) {
         Product currentProduct = productService.getProductById(product.getId());
+        if (!currentProduct.getName().equals(product.getName())
+                && productService.isProductExistsInCategory(product.getName(), product.getCategory().getName())) {
+            // Nếu trùng, thêm thông báo lỗi và trả về trang cập nhật sản phẩm với thông báo
+            // lỗi
+            model.addAttribute("error", "Tên sản phẩm đã tồn tại trong danh mục này!");
+            List<Category> categories = categoryService.getAllCategory();
+            model.addAttribute("categories", categories);
+            model.addAttribute("newProduct", product);
+            return "admin/updateProduct";
+        }
         currentProduct.setName(product.getName());
         currentProduct.setPrice(product.getPrice());
         currentProduct.setDescription(product.getDescription());
@@ -195,9 +205,16 @@ public class AdminController {
     }
 
     @PostMapping("/admin/category/update")
-    public String handleUpdateCategory(@ModelAttribute("newCategory") Category category,
+    public String handleUpdateCategory(@ModelAttribute("newCategory") Category category, Model model,
             @RequestParam("imageProduct") MultipartFile file) {
         Category currentCategory = categoryService.getCategoryById(category.getId());
+        if (!currentCategory.getName().equals(category.getName())
+                && categoryService.isCategoryExists(category.getName())) {
+            model.addAttribute("error", "Tên danh mục đã tồn tại !");
+            model.addAttribute("newCategory", category);
+            return "admin/updateCategory";
+        }
+
         currentCategory.setName(category.getName());
         String imageCategory = this.uploadService.handleSaveUploadFile(file, "category");
         if (imageCategory != "")
