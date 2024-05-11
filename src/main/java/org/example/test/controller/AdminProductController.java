@@ -3,12 +3,12 @@ package org.example.test.controller;
 import java.util.List;
 
 import org.example.test.model.Category;
+import org.example.test.model.Order;
 import org.example.test.model.Product;
-import org.example.test.service.CategoryService;
-import org.example.test.service.ProductService;
-import org.example.test.service.UploadService;
+import org.example.test.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,17 +16,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 @Controller
 public class AdminProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final UploadService uploadService;
+    private final OrderService orderService;
+    private final CartService cartService;
 
     public AdminProductController(UploadService uploadService, ProductService productService,
-            CategoryService categoryService) {
+                                  CategoryService categoryService, OrderService orderService, CartService cartService) {
         this.uploadService = uploadService;
         this.productService = productService;
         this.categoryService = categoryService;
+        this.orderService = orderService;
+        this.cartService = cartService;
     }
 
     @PostMapping("/admin/product/create")
@@ -48,10 +53,4 @@ public class AdminProductController {
         this.productService.saveProduct(product);
         return "redirect:/admin/product";
     }
-
-    @GetMapping("/admin/order")
-    public String adminOrderPage() {
-        return "admin/order";
-    }
-
 }

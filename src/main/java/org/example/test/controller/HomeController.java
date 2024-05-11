@@ -62,7 +62,7 @@ public class HomeController {
         // Cập nhật giỏ hàng mới vào phiên làm việc
         session.setAttribute("cart", cart);
 
-//        return "redirect:/home";
-        return "redirect:/cart/getCart";
+        return "redirect:/home";
+//        return "redirect:/cart/getCart";
     }
 }

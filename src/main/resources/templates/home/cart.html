@@ -157,26 +157,28 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a th:href="@{/home}" class="nav-item nav-link">Home</a>
-                        <a href="shop.html" class="nav-item nav-link">Shop</a>
-                        <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
+                        <a th:href="@{/home}" class="nav-item nav-link active">Home</a>
+                        <a href="" class="nav-item nav-link">Shop</a>
+                        <a href="" class="nav-item nav-link">Shop Detail</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                             <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                <a href="cart.html" class="dropdown-item active">Shopping Cart</a>
-                                <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                <a th:href="@{/cart/getCart}" class="dropdown-item">Shopping Cart</a>
+                                <a th:href="@{/cart/checkout}" class="dropdown-item">Checkout</a>
                             </div>
                         </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                         <a href="" class="btn px-0">
                             <i class="fas fa-heart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                         </a>
-                        <a href="" class="btn px-0 ml-3">
+                        <a th:href="@{/cart/getCart}" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
+                                    <span th:text="${session.cart.getItems().size()}"/>
+                                </span>
                         </a>
                     </div>
                 </div>
@@ -201,7 +203,6 @@
 </div>
 <!-- Breadcrumb End -->
 
-
 <!-- Cart Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -219,7 +220,7 @@
                 <tbody class="align-middle">
                 <tr th:each="item, itemStatus : ${cart.getItems()}" th:object="${item}">
                     <td class="align-middle">
-                        <img th:src="${item.getProduct().getImage()}" alt="" style="width: 50px;">
+                        <img th:src="@{/images/avatar/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
                         <span th:text="${item.getProduct().getName()}">Product Name</span>
                     </td>
                     <td class="align-middle" th:text="@{'$' + ${item.getProduct().getPrice()}}">Price</td>
@@ -265,31 +266,44 @@
                 </div>
             </form>
 
-            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
-            <div class="bg-light p-30 mb-5">
-                <div class="border-bottom pb-2">
-                    <div class="d-flex justify-content-between mb-3">
-                        <h6>Subtotal</h6>
-<!------------                     tổng cộng giá của cart    ---------------------->
-                        <h6><span th:text="'$' + ${totalPrice}"></span></h6>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="font-weight-medium">Shipping</h6>
-                        <h6 class="font-weight-medium"><span th:text="'$10'"></span></h6>
+            <form th:action="@{checkout}" method="get">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Subtotal</h6>
+    <!------------                     tổng cộng giá của cart    ---------------------->
+                            <h6><span th:text="'$' + ${totalPrice}"></span></h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium"><span th:text="'$10'"></span></h6>
 
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            <h5><span th:text="'$' + (${totalPrice} + 10)"/></h5>
+                        </div>
+                        <button onclick="checkCartEmpty()" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
                     </div>
                 </div>
-                <div class="pt-2">
-                    <div class="d-flex justify-content-between mt-2">
-                        <h5>Total</h5>
-                        <h5><span th:text="'$' + (${totalPrice} + 10)"/></h5>
-                    </div>
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    /* Lấy giá trị số lượng sản phẩm từ model và gán cho biến quantity */
+    var quantity = [[${cart.items.size()}]];
+
+    function checkCartEmpty() {
+        if (quantity === 0) {
+            alert("Empty cart!");
+        }
+    }
+</script>
 <!-- Cart End -->
 
 
@@ -381,6 +395,17 @@
 
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>
+
+<!--&lt;!&ndash; Kiểm tra và gọi hàm JavaScript nếu cart trống &ndash;&gt;-->
+<!--<script th:if="${emptyCart}">-->
+<!--    displayPopup();-->
+<!--</script>-->
+
+<!--<script>-->
+<!--    function displayPopup() {-->
+<!--        alert("Cart is empty!"); // Thay thế bằng mã JavaScript để hiển thị popup bạn muốn-->
+<!--    }-->
+<!--</script>-->
 
 </body>
 

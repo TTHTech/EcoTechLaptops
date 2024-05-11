@@ -18,7 +18,7 @@ public class LoginController {
         String role = auth.getAuthorities().toString();
 
         if (role.contains("ROLE_ADMIN")) {
-            return "redirect:/product";
+            return "redirect:/admin";
         } else {
             return "redirect:/index";
         }

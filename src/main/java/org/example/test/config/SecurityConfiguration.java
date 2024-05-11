@@ -2,6 +2,8 @@ package org.example.test.config;
 
 import org.example.test.service.AdminService;
 import org.example.test.service.CustomerServiceRegister;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import org.springframework.security.core.Authentication;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -49,22 +55,30 @@ public class SecurityConfiguration {
                 .authenticationProvider(customerAuthenticationProvider())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/customer/**", "/register**", "/js/**", "/css/**", "/img/**").permitAll()
+                        .requestMatchers("/customer/**", "/register**", "/home/js/**", "/home/css/**", "/home/img/**", "/guest/**","/product/detail/**").permitAll()
+                        .requestMatchers("/resources/**", "/profile/**", "/change-password").authenticated()  // Ensure /change-password is securely accessible
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/perform_login")
-                        .successHandler(loginSuccessHandler()) // Sử dụng trình xử lý thành công tùy chỉnh
+                        .successHandler(loginSuccessHandler())
                         .failureUrl("/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessHandler(customLogoutSuccessHandler())
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        .permitAll());
+                        .permitAll())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/profile/**"),
+                                new AntPathRequestMatcher("/change-password"))); // Correct way to ignore CSRF for specific endpoints
+
         return http.build();
     }
+
+
 
     @Bean
     public AuthenticationSuccessHandler loginSuccessHandler() {
@@ -72,11 +86,25 @@ public class SecurityConfiguration {
             boolean isAdmin = authentication.getAuthorities().stream()
                     .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
             if (isAdmin) {
-                response.sendRedirect("/admin"); // Điều hướng admin đến trang sản phẩm
+                response.sendRedirect("/admin");
             } else {
-                response.sendRedirect("/index"); // Điều hướng người dùng không phải admin đến trang khác
+                response.sendRedirect("/index");
             }
         };
     }
 
+    @Bean
+    public LogoutSuccessHandler customLogoutSuccessHandler() {
+        return new LogoutSuccessHandler() {
+            @Override
+            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+                if (authentication != null && authentication.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                    response.sendRedirect("/login");
+                } else {
+                    response.sendRedirect("/guest");
+                }
+            }
+        };
+    }
 }

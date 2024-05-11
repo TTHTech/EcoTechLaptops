@@ -34,7 +34,6 @@ public class CartController {
 
         // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
         cart = cartService.findCart(cart.getCustomer());
-
         // Cập nhật giỏ hàng mới vào phiên làm việc
         session.setAttribute("cart", cart);
 
@@ -48,12 +47,29 @@ public class CartController {
 
         // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
         cart = cartService.findCart(cart.getCustomer());
-
         // Cập nhật giỏ hàng mới vào phiên làm việc
         session.setAttribute("cart", cart);
 
         return "redirect:/cart/getCart";
     }
+
+    @GetMapping("/checkout")
+    public String checkout(HttpSession session, Model model){
+        Customer customer = (Customer) session.getAttribute("customer");
+        Cart cart = (Cart) session.getAttribute("cart");
+        System.out.println(">>check session when checkout333: cus: " + customer.getId() + ", cart: " + cart.getId());
+
+        //coi trong cart co gi khong
+        if (cart.getItems().size() == 0){
+//            model.addAttribute("emptyCart", true);
+            return "redirect:/home";
+        }
+        model.addAttribute("customer", customer);
+        model.addAttribute("cart", cart);
+
+        return "home/checkout";
+    }
+
 
 }
 

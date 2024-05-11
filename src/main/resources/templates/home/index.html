@@ -51,7 +51,7 @@
                                 <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/register'">Sign up</button>
                             </div>
                             <div th:if="${session.customer != null}">
-                                <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/account'">Account</button>
+                                <a class="dropdown-item" th:href="@{/profile}">Profile</a>
                                 <form action="/logout" method="post">
                                     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                                     <button type="submit" class="dropdown-item">Logout</button>
@@ -160,17 +160,17 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="#" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a th:href="@{/home}" class="nav-item nav-link active">Home</a>
+                            <a href="" class="nav-item nav-link">Shop</a>
+                            <a href="" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                    <a th:href="@{/cart/getCart}" class="dropdown-item">Shopping Cart</a>
+                                    <a th:href="@{/cart/checkout}" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a href="" class="btn px-0">
@@ -179,7 +179,9 @@
                             </a>
                             <a th:href="@{/cart/getCart}" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
+                                <span th:text="${session.cart.getItems().size()}"/>
+                            </span>
                             </a>
                         </div>
                     </div>
@@ -296,9 +298,9 @@
             <th:block th:each="categorie : ${categories}">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <a class="text-decoration-none" href="">
-                        <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="cat-item img-zoom d-flex align-items-center mb-4">
                             <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                <img class="img-fluid" th:src="${categorie.getImage()}" alt="">
+                                <img class="img-fluid" style="width: 200px; height: 100px" th:src="@{/images/category/{image}(image=${categorie.getImage()})}" alt="">
                             </div>
                             <div class="flex-fill pl-3">
                                 <h6 th:text="${categorie.getName()}"></h6>
@@ -322,20 +324,20 @@
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" th:src="${product.getImage()}" alt="">
+                        <img class="img-fluid w-100" th:src="@{/images/avatar/{image}(image=${product.image})}" alt="">
                         <div class="product-action">
 <!--                            đang gán cứng cartID là 1 vào url-->
-                            <a class="btn btn-outline-dark btn-square"
+                            <a class="btn btn-outline-dark btn-square" onclick="showAlert()"
                                th:href="@{'/home/addToCart/' + ${product.getId()}}">
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                         </div>
                     </div>
                     <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href=""><span th:text="${product.getName()}"></span></a>
+                        <a class="h6 text-decoration-none text-truncate" th:href="@{/product/detail/{id}(id=${product.id})}">
+                            <span th:text="${product.name}"></span>
                         <div class="d-flex align-items-center justify-content-center mt-2">
                             <h5><span th:text="@{'$' + ${product.getPrice()}}"></span></h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
                         </div>
@@ -347,12 +349,19 @@
                             <small class="fa fa-star text-primary mr-1"></small>
                             <small>(99)</small>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
             </th:block>
         </div>
     </div>
+
+    <script>
+        function showAlert() {
+            alert("Bạn đã thêm sản phẩm vào giỏ hàng!");
+        }
+    </script>
 
     <!-- Products End -->
 
