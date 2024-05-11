@@ -11,11 +11,8 @@ public class Cart {
     private long id;
     @OneToOne
     private Customer customer;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cart_id")
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Item> items;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders;
 
     public long getId() {
         return id;
@@ -48,10 +45,9 @@ public class Cart {
 
     public Cart() {
     }
-
-    public double getTotalPrice() {
+    public double getTotalPrice(){
         double totalPrice = 0;
-        for (int i = 0; i < items.size(); i++) {
+        for (int i=0; i<items.size(); i++){
             totalPrice += items.get(i).getQuantity() * items.get(i).getProduct().getPrice();
         }
         return totalPrice;
