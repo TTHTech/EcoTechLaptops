@@ -53,7 +53,7 @@ public class ProductService {
     }
 
     public List<Product> searchProduct(String input) {
-        return productRepository.findByNameContaining(input);
+        return productRepository.findByNameContainingAndStatus(input, "on");
     }
 
     public void deleteAllProduct() {
@@ -75,4 +75,15 @@ public class ProductService {
                 || favoriteRepository.existsByFavoriteProducts_IdIsNotNull();
     }
 
+    public int getCountOfProductsByCategoryIdAndStatus(long id, String string) {
+        return productRepository.countProductByCategoryIdAndStatus(id, string);
+    }
+
+    public boolean isProductExistsInCategoryAndStatusOn(String name, String name2) {
+        return this.productRepository.existsProductByNameAndCategoryNameAndStatus(name, name2, "on");
+    }
+
+    public List<Product> getAllProductByStatus(String status) {
+        return productRepository.findByStatus(status);
+    }
 }

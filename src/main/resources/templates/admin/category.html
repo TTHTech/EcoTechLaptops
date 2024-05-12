@@ -72,30 +72,26 @@
                             </div>
                         </form>
                     </div>
-                    <div th:if="${error}" class="alert alert-danger" role="alert">
-                        <span th:text="${error}"></span>
-                    </div>
+
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                             <tr>
-                                <th width="10"><input type="checkbox" id="all"></th>
                                 <th>Mã danh mục</th>
                                 <th>Ảnh</th>
                                 <th>Tên danh mục</th>
-
                                 <th>Số sản Phẩm</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <th:block th:each="category : ${categories}">
+                            <th:block th:each="category : ${categories}" th:if="${category.status == 'on'}">
 
                                 <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
                                     <td th:text="${category.id}"></td>
-                                    <td><img th:src="@{/images/category/{image}(image=${category.image})}" alt=""
-                                            width="100px;"></td>
                                     <td>
+                                        <img th:src="@{/images/category/{image}(image=${category.image})}" alt=""
+                                            width="100px;">
+                                    </td>
                                     <td th:text="${category.name}"></td>
                                     <td>
                                         <form style="display: flex;flex-direction: row;" th:action="@{/admin/product}"

@@ -85,14 +85,10 @@
                 </form>
               </div>
             </div>
-            <div th:if="${error}" class="alert alert-danger" role="alert">
-              <span th:text="${error}"></span>
-            </div>
             <table class="table table-hover table-bordered" id="sampleTable">
 
               <thead>
                 <tr>
-                  <th width="10"><input type="checkbox" id="all"></th>
                   <th>Mã sản phẩm</th>
                   <th>Ảnh</th>
                   <th>Tên sản phẩm</th>
@@ -104,9 +100,8 @@
 
               </thead>
               <tbody>
-                <th:block th:each="product : ${products}">
+                <th:block th:each="product : ${products}" th:if="${product.status == 'on'}">
                   <tr>
-                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
                     <td th:text="${product.id}"></td>
                     <td><img th:src="@{/images/product/{image}(image=${product.image})}" alt="" width="100px;"></td>
                     <td th:text="${product.name}"></td>

@@ -18,6 +18,7 @@ public class Product {
     private Category category;
     private String description;
     private String image;
+    private String status;
 
     public long getId() {
         return id;
@@ -67,12 +68,14 @@ public class Product {
         this.image = image;
     }
 
-    public Product(String productName, double productPrice, Category category, String description, String image) {
+    public Product(String status, String productName, double productPrice, Category category, String description,
+            String image) {
         this.name = productName;
         this.price = productPrice;
         this.category = category;
         this.description = description;
         this.image = image;
+        this.status = status;
     }
 
     public Product() {
@@ -104,5 +107,13 @@ public class Product {
             }
         }
         return count;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
