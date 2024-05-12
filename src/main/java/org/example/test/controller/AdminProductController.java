@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 @Controller
 public class AdminProductController {
     private final ProductService productService;
@@ -26,7 +25,7 @@ public class AdminProductController {
     private final CartService cartService;
 
     public AdminProductController(UploadService uploadService, ProductService productService,
-                                  CategoryService categoryService, OrderService orderService, CartService cartService) {
+            CategoryService categoryService, OrderService orderService, CartService cartService) {
         this.uploadService = uploadService;
         this.productService = productService;
         this.categoryService = categoryService;
@@ -50,6 +49,7 @@ public class AdminProductController {
         product.setPrice(stringPrice);
         Category category = this.categoryService.findByName(product.getCategory().getName());
         product.setCategory(category);
+        product.setStatus("on");
         this.productService.saveProduct(product);
         return "redirect:/admin/product";
     }

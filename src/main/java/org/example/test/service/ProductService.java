@@ -75,4 +75,8 @@ public class ProductService {
                 || favoriteRepository.existsByFavoriteProducts_IdIsNotNull();
     }
 
+    public int getCountOfProductsByCategoryIdAndStatus(long id, String string) {
+        return productRepository.countProductByCategoryIdAndStatus(id, string);
+    }
+
 }

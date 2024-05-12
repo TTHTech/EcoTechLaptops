@@ -18,6 +18,15 @@ public class Category {
     private String image;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getImage() {
         return image;
@@ -43,10 +52,11 @@ public class Category {
         this.name = name;
     }
 
-    public Category(long id, String name, String image) {
+    public Category(long id, String name, String image, String status) {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.status = status;
     }
 
     public Category(String name) {

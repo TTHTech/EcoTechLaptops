@@ -19,18 +19,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
 @Controller
 public class AdminController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final UploadService uploadService;
     private final CustomerService customerService;
-    private final ItemService itemService;
-    private final FavoriteService favoriteService;
 
-    public AdminController(FavoriteService favoriteService, ItemService itemService, CustomerService customerService,
+    public AdminController(CustomerService customerService,
             UploadService uploadService,
             CategoryService categoryService,
             ProductService productService) {
@@ -38,8 +34,7 @@ public class AdminController {
         this.productService = productService;
         this.uploadService = uploadService;
         this.customerService = customerService;
-        this.itemService = itemService;
-        this.favoriteService = favoriteService;
+
     }
 
     @GetMapping("/admin")
@@ -50,7 +45,7 @@ public class AdminController {
     @GetMapping("/admin/product")
     public String adminProductPage(Model model) {
         List<Product> products = productService.getAllProduct();
-        List<Category> categories = categoryService.getAllCategory();
+        List<Category> categories = categoryService.getCategoriesByStatus("on");
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         return "admin/product";
@@ -79,21 +74,27 @@ public class AdminController {
 
     @PostMapping("admin/product/deleteAll")
     public String handleDeleteAllProduct(Model model) {
-        if (productService.areAnyProductsInUse()) {
-            model.addAttribute("error", "Không thể xóa vì có sản phẩm đang được sử dụng!");
-            List<Product> products = productService.getAllProduct();
-            List<Category> categories = categoryService.getAllCategory();
-            model.addAttribute("products", products);
-            model.addAttribute("categories", categories);
-            return "admin/product";
+        List<Product> products = productService.getAllProduct();
+        for (Product product : products) {
+            product.setStatus("off");
+            productService.saveProduct(product);
         }
-        productService.deleteAllProduct();
         return "redirect:/admin/product";
     }
 
     @PostMapping("admin/category/deleteAll")
     public String handleDeleteAllCategory() {
-        categoryService.deleteAllProduct();
+
+        List<Product> products = productService.getAllProduct();
+        for (Product product : products) {
+            product.setStatus("off");
+            productService.saveProduct(product);
+        }
+        List<Category> categories = categoryService.getAllCategories();
+        for (Category category : categories) {
+            category.setStatus("off");
+            categoryService.saveCategory(category);
+        }
         return "redirect:/admin/category";
     }
 
@@ -119,22 +120,19 @@ public class AdminController {
 
     @PostMapping("/admin/product/delete")
     public String handleDeleteProduct(@RequestParam("id") Long id, Model model) {
-        if (productService.isProductInUse(id)) {
-
-            model.addAttribute("error", "Không thể xóa sản phẩm bởi vì sản phẩm đang được sử dụng!");
-            List<Product> products = productService.getAllProduct();
-            List<Category> categories = categoryService.getAllCategory();
-            model.addAttribute("products", products);
-            model.addAttribute("categories", categories);
-            return "admin/product";
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            // Cập nhật trạng thái của sản phẩm thành "off"
+            product.setStatus("off");
+            productService.saveProduct(product);
         }
-        productService.deleteProduct(id);
         return "redirect:/admin/product";
     }
 
     @GetMapping("/admin/product/create")
     public String handleCreateProduct(Model model) {
-        List<Category> categories = categoryService.getAllCategory();
+
+        List<Category> categories = categoryService.getCategoriesByStatus("on");
         model.addAttribute("categories", categories);
         model.addAttribute("newProduct", new Product());
         return "admin/createProduct";
@@ -184,7 +182,7 @@ public class AdminController {
         List<Category> categories = categoryService.getAllCategory();
         Map<Long, Integer> productCountMap = new HashMap<>();
         for (Category category : categories) {
-            int productCount = productService.getProductCountByCategoryId(category.getId());
+            int productCount = productService.getCountOfProductsByCategoryIdAndStatus(category.getId(), "on");
             productCountMap.put(category.getId(), productCount);
         }
         model.addAttribute("categories", categories);
@@ -197,37 +195,14 @@ public class AdminController {
         Category category = categoryService.getCategoryById(id);
         if (category != null) {
             List<Product> products = productService.getProductsByCategoryId(id);
-            boolean isValid = true; // Biến để kiểm tra tất cả sản phẩm có hợp lệ không
-            // Kiểm tra từng sản phẩm
             for (Product product : products) {
-                if (itemService.isProductInUse(product.getId()) || favoriteService.isProductInUse(product.getId())) {
-                    // Nếu có ít nhất một sản phẩm không hợp lệ, đặt biến isValid thành false và
-                    // thoát khỏi vòng lặp
-                    isValid = false;
-                    break;
-                }
+                product.setStatus("off");
+                productService.saveProduct(product);
             }
-            // Nếu tất cả sản phẩm đều hợp lệ, bắt đầu quá trình xóa từng sản phẩm
-            if (isValid) {
-                for (Product product : products) {
-                    productService.deleteProduct(product.getId());
-                }
-                // Sau khi xóa tất cả sản phẩm, xóa danh mục
-                categoryService.deleteCategory(id);
-            } else {
-                // Nếu có ít nhất một sản phẩm không hợp lệ, hiển thị thông báo lỗi
-                model.addAttribute("error", "Không thể xóa vì có sản phẩm của danh mục đang được sử dụng!");
-                List<Category> categories = categoryService.getAllCategory();
-                Map<Long, Integer> productCountMap = new HashMap<>();
-                for (Category categoryShow : categories) {
-                    int productCount = productService.getProductCountByCategoryId(categoryShow.getId());
-                    productCountMap.put(categoryShow.getId(), productCount);
-                }
-                model.addAttribute("categories", categories);
-                model.addAttribute("productCountMap", productCountMap);
-                return "admin/category";
-            }
+            category.setStatus("off");
+            categoryService.saveCategory(category);
         }
+
         return "redirect:/admin/category";
     }
 
@@ -247,6 +222,7 @@ public class AdminController {
         }
         String image = this.uploadService.handleSaveUploadFile(file, "category");
         category.setImage(image);
+        category.setStatus("on");
         categoryService.saveCategory(category);
         return "redirect:/admin/category";
     }
