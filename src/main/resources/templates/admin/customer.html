@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Danh sách nhân viên | Quản trị Admin</title>
+    <title>Danh sách khách hàng | Quản trị Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,7 @@
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
-                <li class="breadcrumb-item active"><a href="#"><b>Danh sách nhân viên</b></a></li>
+                <li class="breadcrumb-item active"><a href="#"><b>Danh SÁCH KHÁCH HÀNG</b></a></li>
             </ul>
             <div id="clock"></div>
         </div>
@@ -41,55 +41,29 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
-
-                        <div class="row element-button">
-                            <div class="col-sm-2">
-
-                                <a class="btn btn-add btn-sm" href="form-add-nhan-vien.html" title="Thêm"><i
-                                        class="fas fa-plus"></i>
-                                    Tạo mới nhân viên</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
-                                        class="fas fa-trash-alt"></i> Xóa tất cả </a>
-                            </div>
-                        </div>
                         <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0"
                             border="0" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th width="10"><input type="checkbox" id="all"></th>
                                     <th>ID người dùng</th>
-                                    <th width="150">Họ và tên</th>
-                                    <th width="20">Ảnh thẻ</th>
-                                    <th width="300">Địa chỉ</th>
+                                    <th>Họ và tên</th>
+                                    <th>Địa chỉ</th>
                                     <th>Email</th>
                                     <th>SĐT</th>
                                     <th>Ngày tạo</th>
-                                    <th width="100">Tính năng</th>
+                                    <th>Ngày cập nhật lần cuối</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <th:block th:each="customer : ${customers}">
                                     <tr>
-                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
                                         <td th:text="${customer.id}"></td>
                                         <td th:text="${customer.name}"></td>
-                                        <td>anh
-                                        </td>
                                         <td th:text="${customer.address}"></td>
                                         <td th:text="${customer.email}"></td>
                                         <td th:text="${customer.phone}"></td>
                                         <td th:text="${customer.createDate}"></td>
-                                        <td class="table-td-center"><button class="btn btn-primary btn-sm trash"
-                                                type="button" title="Xóa" onclick="myFunction(this)"><i
-                                                    class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                                id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                    class="fas fa-edit"></i>
-                                            </button>
-                                        </td>
+                                        <td th:text="${customer.updateDate}"></td>
                                     </tr>
                                 </th:block>
                             </tbody>
@@ -127,7 +101,7 @@
                 swal({
                     title: "Cảnh báo",
 
-                    text: "Bạn có chắc chắn là muốn xóa nhân viên này?",
+                    text: "Bạn có chắc chắn là muốn xóa khách hàng này?",
                     buttons: ["Hủy bỏ", "Đồng ý"],
                 })
                     .then((willDelete) => {

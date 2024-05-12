@@ -61,4 +61,7 @@ public class CustomerService {
         return false; // Trả về false nếu mật khẩu hiện tại không đúng hoặc người dùng không tồn tại
     }
 
+    public void deleteCustomer(Long customerId) {
+        customerRepository.deleteById(customerId);
+    }
 }
