@@ -45,7 +45,7 @@ public class AdminController {
         if (categoryName == null || categoryName.isEmpty()) {
             categories = categoryService.getAllCategory();
         } else
-            categories = this.categoryService.getCategoriesByName(categoryName);
+            categories = this.categoryService.getCategoriesContainingName(categoryName);
         model.addAttribute("categories", categories);
         Map<Long, Integer> productCountMap = new HashMap<>();
         for (Category category : categories) {

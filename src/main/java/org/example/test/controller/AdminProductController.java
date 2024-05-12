@@ -50,7 +50,7 @@ public class AdminProductController {
         List<Product> products;
         if (productName != null && !productName.isEmpty()) {
             // Nếu tìm theo tên sản phẩm
-            products = productService.getProductsByName(productName);
+            products = productService.getProductsContainingName(productName);
         } else if (categoryId != null) {
             // Nếu tìm theo danh mục
             products = productService.getProductsByCategoryId(categoryId);

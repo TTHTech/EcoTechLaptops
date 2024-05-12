@@ -58,6 +58,10 @@ public class CategoryService {
         return this.categoryRepository.existsCategoryByNameAndStatus(name, "on");
     }
 
+    public List<Category> getCategoriesContainingName(String categoryName) {
+        return this.categoryRepository.findCategoriesByNameContaining(categoryName);
+    }
+
     public List<Category> getAllCategoryByStatus(String status) {
         return categoryRepository.findByStatus(status);
     }
