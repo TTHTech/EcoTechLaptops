@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class CustomerProfileController {
@@ -42,16 +44,17 @@ public class CustomerProfileController {
     // Xử lý upload ảnh và cập nhật thông tin
     @PostMapping("/profile")
     @ResponseBody
-    public ResponseEntity<?> handleProfileUpdate(
+    public RedirectView handleProfileUpdate(
             @RequestParam(value = "image", required = false) MultipartFile uploadfile,
             @RequestParam("name") String name,
             @RequestParam("phone") String phone,
             @RequestParam("address") String address,
-            HttpSession session) {
+            HttpSession session, RedirectAttributes attributes) {
 
         Customer customer = (Customer) session.getAttribute("customer");
         if (customer == null) {
-            return new ResponseEntity<>("No customer logged in", HttpStatus.FORBIDDEN);
+            attributes.addFlashAttribute("message", "No customer logged in");
+            return new RedirectView("/login"); // Redirect to login page if not logged in
         }
 
         if (uploadfile != null && !uploadfile.isEmpty()) {
@@ -60,7 +63,8 @@ public class CustomerProfileController {
                 customer.setImage(filename);
             } catch (Exception e) {
                 e.printStackTrace();
-                return new ResponseEntity<>("Error during file upload", HttpStatus.INTERNAL_SERVER_ERROR);
+                attributes.addFlashAttribute("message", "Error during file upload");
+                return new RedirectView("/profile"); // Redirect back to profile page on error
             }
         }
 
@@ -71,6 +75,8 @@ public class CustomerProfileController {
         customerService.updateCustomer(customer.getId(), customer);
 
         session.setAttribute("customer", customer);
-        return ResponseEntity.ok("Profile updated successfully");
+        attributes.addFlashAttribute("message", "Profile updated successfully");
+        return new RedirectView("/profile"); // Redirect to profile page after update
     }
+
 }

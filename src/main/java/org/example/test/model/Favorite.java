@@ -33,9 +33,11 @@ public class Favorite {
         return favoriteProducts;
     }
 
-    public void setFavouriteProducts(List<Product> favouriteProducts) {
+    // Trong class Favorite, sửa tên phương thức thành setFavoriteProducts
+    public void setFavoriteProducts(List<Product> favoriteProducts) {
         this.favoriteProducts = favoriteProducts;
     }
+
 
     public Favorite(Customer customer, List<Product> favoriteProducts) {
         this.customer = customer;
