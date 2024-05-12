@@ -41,13 +41,14 @@ public class MainController {
 		sesssion.setAttribute("customer", customer);
 
 		//set products, categories
-		List<Category> categoryList = categoryService.getAllCategory();
-		List<Product> productList = productService.getAllProduct();
+		List<Category> categoryList = categoryService.getAllCategoryByStatus("on");
+		List<Product> productList = productService.getAllProductByStatus("on");
 		sesssion.setAttribute("categories", categoryList);
 		sesssion.setAttribute("products", productList);
 
 		//set cart (tuy nhiên mỗi lần thêm xoá sửa cart thì phải set lại nó mới hiện đúng ngay nha)
-		Cart cart = cartService.findCart(customer);
+		//chỉ lấy status='on'
+		Cart cart = cartService.getCartWithProductsOnStatus(customer);
 		sesssion.setAttribute("cart", cart);
 
 	}

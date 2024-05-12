@@ -57,4 +57,9 @@ public class CategoryService {
     public boolean isCategoryExistsAndStatusOn(String name) {
         return this.categoryRepository.existsCategoryByNameAndStatus(name, "on");
     }
+
+    public List<Category> getAllCategoryByStatus(String status) {
+        return categoryRepository.findByStatus(status);
+    }
+
 }

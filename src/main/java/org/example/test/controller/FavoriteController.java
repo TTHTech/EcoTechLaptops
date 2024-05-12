@@ -71,7 +71,7 @@ public class FavoriteController {
 
         try {
             cartService.addToCart(cart.getId(), id);
-            cart = cartService.findCart(cart.getCustomer());
+            cart = cartService.getCartWithProductsOnStatus(cart.getCustomer());
             session.setAttribute("cart", cart);
             redirectAttributes.addFlashAttribute("success", "Product added to cart successfully!");
         } catch (Exception e) {

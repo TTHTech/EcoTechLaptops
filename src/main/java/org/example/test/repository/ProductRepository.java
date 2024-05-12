@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByName(String productName);
 
     // search:
-    List<Product> findByNameContaining(String searchInput);
+    List<Product> findByNameContainingAndStatus(String input, String status);
 
     boolean existsProductByNameAndCategoryName(String name, String name2);
 
@@ -27,4 +27,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     boolean existsProductByNameAndCategoryNameAndStatus(String name, String name2, String string);
 
+    public List<Product> findByStatus(String status);
 }
