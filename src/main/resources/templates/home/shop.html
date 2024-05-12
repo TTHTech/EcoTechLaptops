@@ -213,38 +213,40 @@
                 <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Alls Products</span></h2>
                 <div class="row px-xl-5">
                     <th:block th:each="product : ${products}">
-                        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                            <div class="product-item bg-light mb-4">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" style="height: 325px; width:325px; object-fit: cover;" alt="">
-                                    <div class="product-action">
-                                        <!--                            đang gán cứng cartID là 1 vào url-->
-                                        <a class="btn btn-outline-dark btn-square" onclick="showAlert()"
-                                           th:href="@{'/home/addToCart/' + ${product.getId()}}">
-                                            <i class="fa fa-shopping-cart"></i>
+<!--                        <th:block th:if="${product.status == 'on'}">-->
+                            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                                <div class="product-item bg-light mb-4">
+                                    <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" style="height: 325px; width:325px; object-fit: cover;" alt="">
+                                        <div class="product-action">
+                                            <!--                            đang gán cứng cartID là 1 vào url-->
+                                            <a class="btn btn-outline-dark btn-square" onclick="showAlert()"
+                                               th:href="@{'/home/addToCart/' + ${product.getId()}}">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </a>
+                                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" th:href="@{/product/detail/{id}(id=${product.id})}"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center py-4">
+                                        <a class="h6 text-decoration-none text-truncate" th:href="@{/product/detail/{id}(id=${product.id})}">
+                                            <span th:text="${product.name}"></span>
+                                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                                <h5><span th:text="@{'$' + ${product.getPrice()}}"></span></h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                                <small>(99)</small>
+                                            </div>
                                         </a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" th:href="@{/product/detail/{id}(id=${product.id})}"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
-                                <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate" th:href="@{/product/detail/{id}(id=${product.id})}">
-                                        <span th:text="${product.name}"></span>
-                                        <div class="d-flex align-items-center justify-content-center mt-2">
-                                            <h5><span th:text="@{'$' + ${product.getPrice()}}"></span></h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-center mb-1">
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small>(99)</small>
-                                        </div>
-                                    </a>
-                                </div>
                             </div>
-                        </div>
+<!--                        </th:block>-->
                     </th:block>
                 </div>
             </div>

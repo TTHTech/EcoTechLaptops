@@ -53,7 +53,7 @@ public class ProductService {
     }
 
     public List<Product> searchProduct(String input) {
-        return productRepository.findByNameContaining(input);
+        return productRepository.findByNameContainingAndStatus(input, "on");
     }
 
     public void deleteAllProduct() {
@@ -85,6 +85,11 @@ public class ProductService {
 
     public List<Product> getProductsContainingName(String productName) {
         return this.productRepository.findProductsByNameContaining(productName);
+    }
+
+
+    public List<Product> getAllProductByStatus(String status) {
+        return productRepository.findByStatus(status);
     }
 
 }

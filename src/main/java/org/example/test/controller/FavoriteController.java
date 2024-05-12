@@ -30,17 +30,20 @@ public class FavoriteController {
     @GetMapping("/getFavorite")
     public String getFavorite(Model model, HttpSession session) {
         Customer customer = (Customer) session.getAttribute("customer");
-        Favorite favorite = favoriteService.findByCustomer(customer);
-
-        if (favorite == null) {
-            favorite = new Favorite();
-        } else {
-            session.setAttribute("favorite", favorite);
+        if (customer == null) {
+            return "redirect:/login"; // Redirect to login if not logged in
         }
+
+        // Retrieve favorite with products that have status "on"
+        Favorite favorite = favoriteService.getFavoriteWithProductsOnStatus(customer);
+
+        // Update favorite in session to reflect possibly updated list
+        session.setAttribute("favorite", favorite);
 
         model.addAttribute("favorite", favorite);
         return "home/favorite";
     }
+
     @GetMapping("/remove/{productId}")
     public String removeProductFromFavorites(@PathVariable Long productId, HttpSession session, RedirectAttributes redirectAttributes) {
         Customer customer = (Customer) session.getAttribute("customer");
@@ -71,7 +74,7 @@ public class FavoriteController {
 
         try {
             cartService.addToCart(cart.getId(), id);
-            cart = cartService.findCart(cart.getCustomer());
+            cart = cartService.getCartWithProductsOnStatus(cart.getCustomer());
             session.setAttribute("cart", cart);
             redirectAttributes.addFlashAttribute("success", "Product added to cart successfully!");
         } catch (Exception e) {
