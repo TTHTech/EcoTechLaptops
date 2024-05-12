@@ -108,13 +108,7 @@ public class CartService {
 
     //tìm cái cart bằng customer (khi đăng nhập thì tìm cái cart cho nó)
     public Cart findCart(Customer customer){
-        List<Cart> allCarts = getAllCarts();
-        for (Cart cart : allCarts){
-            if (customer.getId() == cart.getCustomer().getId()){
-                return cart;
-            }
-        }
-        return null;
+        return cartRepository.findCartByCustomer(customer);
     }
 
     //xoa het lineItem ra khoi cart
@@ -124,6 +118,27 @@ public class CartService {
         cartRepository.save(cart);
 
         return "Deleted all Item from cart with id=" + cart.getId();
+    }
+
+    public Cart getCartWithProductsOnStatus(Customer customer) {
+        // Lấy giỏ hàng của khách hàng
+        Cart cart = findCart(customer);
+
+        // Lấy danh sách mục trong giỏ hàng
+        List<Item> items = cart.getItems();
+        List<Item> filteredItems = new ArrayList<>();
+
+        // Lọc các mục trong giỏ hàng để chỉ giữ lại sản phẩm có trạng thái 'on'
+        for (Item item : items) {
+            if (item.getProduct().getStatus().equals("on")) {
+                filteredItems.add(item);
+            }
+        }
+
+        // Cập nhật lại danh sách các mục trong giỏ hàng chỉ bao gồm các sản phẩm có trạng thái 'on'
+        cart.setItems(filteredItems);
+
+        return cart;
     }
 
 }

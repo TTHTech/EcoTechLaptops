@@ -48,51 +48,82 @@
                             </div>
 
                             <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
-                                        class="fas fa-trash-alt"></i> Xóa tất cả </a>
+                                <form th:action="@{/admin/category/deleteAll}" method="post">
+                                    <button style="color: rgb(191, 0, 0);background-color: rgb(239, 202, 202);"
+                                        class="btn btn-delete btn-sm" type="submit" title="Xóa tất cả">
+                                        <i class="fas fa-trash-alt"></i> Xóa tất cả
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                        <table class="table table-hover table-bordered" id="sampleTable">
-                            <thead>
-                                <tr>
-                                    <th width="10"><input type="checkbox" id="all"></th>
-                                    <th>Mã danh mục</th>
-                                    <th>Tên danh mục</th>
-                                    <th>Ảnh</th>
-                                    <th>Sản Phẩm</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <th:block th:each="category : ${categories}">
-
-                                    <tr>
-                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                        <td th:text="${category.id}"></td>
-                                        <td th:text="${category.name}"></td>
-                                        <td><img th:src="@{/images/category/{image}(image=${category.image})}" alt=""
-                                                width="100px;"></td>
-                                        <td>40</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                onclick="myFunction(this, '${category.id}')">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <form id="${category.id}" style="padding: 0;height: 31px;"
-                                                class="btn btn-primary btn-sm trash"
-                                                th:action="@{/admin/category/delete}" method="post">
-                                                <input type="hidden" th:name="id" th:value="${category.id}" />
-                                            </form>
-                                            <a th:href="@{/admin/category/update/{id}(id=${category.id})}"
-                                                class="btn btn-primary btn-sm edit" title="Sửa"><i
-                                                    class="fas fa-edit"></i></a>
-                                        </td>
-                                    </tr>
-                                </th:block>
-                            </tbody>
-                        </table>
                     </div>
+                    <div class="col-sm-2 absolute-position"
+                        style="position: absolute;top: 90px ;right: 20px;z-index: 5;">
+                        <form style="display: flex; flex-direction: row;border-color: rgb(171, 165, 165);"
+                            th:action="@{/admin/category}" method="post">
+                            <div class="col-sm-2">
+                                <input
+                                    style="width: 150px;height: 33px;border-radius: 4px;border-color: rgb(171, 165, 165);"
+                                    type="text" name="categoryName" placeholder="Nhập tên danh mục">
+                            </div>
+                            <div class="col-sm-2">
+                                <button style="background-color: rgb(225, 236, 134);" type="submit"
+                                    class="btn btn-primary">Tìm</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                            <tr>
+                                <th>Mã danh mục</th>
+                                <th>Ảnh</th>
+                                <th>Tên danh mục</th>
+                                <th>Số sản Phẩm</th>
+                                <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="category : ${categories}" th:if="${category.status == 'on'}">
+
+                                <tr>
+                                    <td th:text="${category.id}"></td>
+                                    <td>
+                                        <img th:src="@{/images/category/{image}(image=${category.image})}" alt=""
+                                            width="100px;">
+                                    </td>
+                                    <td th:text="${category.name}"></td>
+                                    <td>
+                                        <form style="display: flex;flex-direction: row;" th:action="@{/admin/product}"
+                                            method="post">
+                                            <div class="col-sm-2">
+                                                <button th:text="${productCountMap.get(category.id)}" name="categoryId"
+                                                    th:value="${category.id}" type="submit"
+                                                    class="btn btn-primary"></button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                            onclick="myFunction(this, '${category.id}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <form id="${category.id}" style="padding: 0;height: 31px;"
+                                            class="btn btn-primary btn-sm trash" th:action="@{/admin/category/delete}"
+                                            method="post">
+                                            <input type="hidden" th:name="id" th:value="${category.id}" />
+                                        </form>
+                                        <a th:href="@{/admin/category/update/{id}(id=${category.id})}"
+                                            class="btn btn-primary btn-sm edit" title="Sửa"><i
+                                                class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
         </div>
     </main>
 
@@ -127,8 +158,9 @@
     <script type="text/javascript" src="/js/plugins/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/js/plugins/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript">
-        $('#sampleTable').DataTable();
-        //Thời Gian
+        $('#sampleTable').DataTable({
+            searching: false
+        });        //Thời Gian
         function time() {
             var today = new Date();
             var weekday = new Array(7);

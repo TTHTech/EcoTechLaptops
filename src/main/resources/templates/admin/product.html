@@ -47,29 +47,65 @@
                   Tạo mới sản phẩm</a>
               </div>
               <div class="col-sm-2">
-                <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
-                    class="fas fa-trash-alt"></i> Xóa tất cả </a>
+                <form th:action="@{/admin/product/deleteAll}" method="post">
+                  <button style="color: rgb(191, 0, 0);background-color: rgb(239, 202, 202);"
+                    class="btn btn-delete btn-sm" type="submit" title="Xóa tất cả">
+                    <i class="fas fa-trash-alt"></i> Xóa tất cả
+                  </button>
+                </form>
+              </div>
+              <div class="col-sm-2">
+                <form style="display: flex;flex-direction: row;" th:action="@{/admin/product}" method="post">
+
+                  <select style="width: 190px;height: 33px;" class="form-control" name="categoryId">
+                    <option value="">Chọn danh mục</option>
+                    <th:block th:each="category : ${categories}">
+                      <option th:value="${category.id}" th:text="${category.name}"></option>
+                    </th:block>
+                  </select>
+                  <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary">Xem sản phẩm</button>
+
+                  </div>
+
+                </form>
+              </div>
+              <div class="col-sm-2 absolute-position" style="position: absolute;top: 70px ;right: 20px;z-index: 5;">
+                <!-- Form tìm kiếm -->
+                <form style="display: flex; flex-direction: row;border-color: rgb(171, 165, 165);"
+                  th:action="@{/admin/product}" method="post">
+                  <div class="col-sm-2">
+                    <input style="width: 150px;height: 33px;border-radius: 4px;border-color: rgb(171, 165, 165);"
+                      type="text" name="productName" placeholder="Nhập tên sản phẩm">
+                  </div>
+                  <div class="col-sm-2">
+                    <button style="background-color: rgb(225, 236, 134);" type="submit"
+                      class="btn btn-primary">Tìm</button>
+                  </div>
+                </form>
               </div>
             </div>
             <table class="table table-hover table-bordered" id="sampleTable">
+
               <thead>
                 <tr>
-                  <th width="10"><input type="checkbox" id="all"></th>
                   <th>Mã sản phẩm</th>
-                  <th>Tên sản phẩm</th>
                   <th>Ảnh</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Mô tả</th>
                   <th>Giá tiền</th>
                   <th>Danh mục</th>
                   <th>Chức năng</th>
                 </tr>
+
               </thead>
               <tbody>
-                <th:block th:each="product : ${products}">
+                <th:block th:each="product : ${products}" th:if="${product.status == 'on'}">
                   <tr>
-                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
                     <td th:text="${product.id}"></td>
-                    <td th:text="${product.name}"></td>
                     <td><img th:src="@{/images/product/{image}(image=${product.image})}" alt="" width="100px;"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.description}"></td>
                     <td th:text="${product.price}"></td>
                     <td th:text="${product.category.name}"></td>
                     <td>
@@ -123,7 +159,10 @@
   <script type="text/javascript" src="/js/plugins/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="/js/plugins/dataTables.bootstrap.min.js"></script>
   <script type="text/javascript">
-    $('#sampleTable').DataTable();
+    $('#sampleTable').DataTable({
+      searching: false
+    });
+
     //Thời Gian
     function time() {
       var today = new Date();

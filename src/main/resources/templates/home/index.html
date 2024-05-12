@@ -98,9 +98,9 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                <form th:action="@{/product/search}">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" placeholder="Search for products" name="searchInput">
 <!--                        <span th:text="${customer.getEmail()}"></span>-->
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
@@ -160,29 +160,35 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="#" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a th:href="@{/home}" class="nav-item nav-link active">Home</a>
+                            <a th:href="@{/home/shop}" class="nav-item nav-link">Shop</a>
+                            <a href="" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                    <a th:href="@{/cart/getCart}" class="dropdown-item">Shopping Cart</a>
+                                    <a th:href="@{/cart/checkout}" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0">
+                            <!-- Favorites Link -->
+                            <a th:href="@{/favorite/getFavorite}" href="" class="btn px-0">
                                 <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
+                                <span th:text="${session.favorite?.favoriteProducts != null ? session.favorite.favoriteProducts.size() : 0}"></span>
+                                </span>
                             </a>
+
+                            <!-- Cart Link -->
                             <a th:href="@{/cart/getCart}" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
                                 <span th:text="${session.cart.getItems().size()}"/>
-                            </span>
+                                </span>
                             </a>
+
                         </div>
                     </div>
                 </nav>
@@ -204,7 +210,7 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item position-relative active" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-1.jpg" style="object-fit: cover;">
+                            <img class="position-absolute w-100 h-100" src="https://bizweb.dktcdn.net/100/376/467/themes/790294/assets/slider_1.jpg?1673312669282" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Men Fashion</h1>
@@ -214,7 +220,7 @@
                             </div>
                         </div>
                         <div class="carousel-item position-relative" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-2.jpg" style="object-fit: cover;">
+                            <img class="position-absolute w-100 h-100" src="https://bizweb.dktcdn.net/100/376/467/themes/790294/assets/slider_2.jpg?1673312669282" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Women Fashion</h1>
@@ -224,7 +230,7 @@
                             </div>
                         </div>
                         <div class="carousel-item position-relative" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-3.jpg" style="object-fit: cover;">
+                            <img class="position-absolute w-100 h-100" src="https://bizweb.dktcdn.net/100/376/467/themes/790294/assets/slider_3.jpg?1673312669282" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Kids Fashion</h1>
@@ -238,7 +244,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="product-offer mb-30" style="height: 200px;">
-                    <img class="img-fluid" src="img/offer-1.jpg" alt="">
+                    <img class="img-fluid" src="https://bizweb.dktcdn.net/100/376/467/themes/790294/assets/index_sec_about_image-2.jpg?1673312669282" alt="">
                     <div class="offer-text">
                         <h6 class="text-white text-uppercase">Save 20%</h6>
                         <h3 class="text-white mb-3">Special Offer</h3>
@@ -246,7 +252,7 @@
                     </div>
                 </div>
                 <div class="product-offer mb-30" style="height: 200px;">
-                    <img class="img-fluid" src="img/offer-2.jpg" alt="">
+                    <img class="img-fluid" src="https://bizweb.dktcdn.net/100/376/467/themes/790294/assets/index_sec_about_image-3.jpg?1673312669282" alt="">
                     <div class="offer-text">
                         <h6 class="text-white text-uppercase">Save 20%</h6>
                         <h3 class="text-white mb-3">Special Offer</h3>
@@ -298,9 +304,9 @@
             <th:block th:each="categorie : ${categories}">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <a class="text-decoration-none" href="">
-                        <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="cat-item img-zoom d-flex align-items-center mb-4">
                             <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                <img class="img-fluid" th:src="${categorie.getImage()}" alt="">
+                                <img class="img-fluid" style="width: 200px; height: 100px" th:src="@{/images/category/{image}(image=${categorie.getImage()})}" alt="">
                             </div>
                             <div class="flex-fill pl-3">
                                 <h6 th:text="${categorie.getName()}"></h6>
@@ -320,24 +326,29 @@
     <div class="container-fluid pt-5 pb-3">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
         <div class="row px-xl-5">
-            <th:block th:each="product : ${products}">
+            <th:block th:each="product : ${featureProducts}">
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" th:src="@{/images/avatar/{image}(image=${product.image})}" alt="">
+                        <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" alt="" style="height: 325px; width:325px; object-fit: cover;">
                         <div class="product-action">
 <!--                            đang gán cứng cartID là 1 vào url-->
-                            <a class="btn btn-outline-dark btn-square"
+                            <a class="btn btn-outline-dark btn-square" onclick="showAlert()"
                                th:href="@{'/home/addToCart/' + ${product.getId()}}">
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                            <a class="btn btn-outline-dark btn-square"
+                               th:href="@{'/home/addToFavorite/' + ${product.id}}">
+                                <i class="fa fa-heart"></i>
+                            </a>
+
+
+                            <a class="btn btn-outline-dark btn-square" th:href="@{/product/detail/{id}(id=${product.id})}"><i class="fa fa-search"></i></a>
                         </div>
                     </div>
                     <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href=""><span th:text="${product.getName()}"></span></a>
+                        <a class="h6 text-decoration-none text-truncate" th:href="@{/product/detail/{id}(id=${product.id})}">
+                            <span th:text="${product.name}"></span>
                         <div class="d-flex align-items-center justify-content-center mt-2">
                             <h5><span th:text="@{'$' + ${product.getPrice()}}"></span></h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
                         </div>
@@ -349,12 +360,19 @@
                             <small class="fa fa-star text-primary mr-1"></small>
                             <small>(99)</small>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
             </th:block>
         </div>
     </div>
+
+    <script>
+        function showAlert() {
+            alert("Bạn đã thêm sản phẩm vào giỏ hàng!");
+        }
+    </script>
 
     <!-- Products End -->
 
@@ -387,35 +405,39 @@
     <!-- Offer End -->
 
 
-    <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
         <div class="row px-xl-5">
             <th:block th:each="product : ${products}">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" th:src="${product.getImage()}" alt="">
+                            <img class="img-fluid w-100" th:src="@{/images/product/{image}(image=${product.image})}" alt="" style="height: 325px; width:325px; object-fit: cover;">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                <!--                            đang gán cứng cartID là 1 vào url-->
+                                <a class="btn btn-outline-dark btn-square" onclick="showAlert()"
+                                   th:href="@{'/home/addToCart/' + ${product.getId()}}">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-dark btn-square" th:href="@{/product/detail/{id}(id=${product.id})}"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href=""><span th:text="${product.getName()}"></span></a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5><span th:text="@{'$' + ${product.getPrice()}}"></span></h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
+                            <a class="h6 text-decoration-none text-truncate" th:href="@{/product/detail/{id}(id=${product.id})}">
+                                <span th:text="${product.name}"></span>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <h5><span th:text="@{'$' + ${product.getPrice()}}"></span></h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center mb-1">
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small>(99)</small>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>

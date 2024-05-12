@@ -32,7 +32,7 @@
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
-        <li class="breadcrumb-item active"><a href="#"><b>Danh sách đơn hàng</b></a></li>
+        <li class="breadcrumb-item active"><a href="#"><b>DANH SÁCH ĐƠN HÀNG</b></a></li>
       </ul>
       <div id="clock"></div>
     </div>
@@ -43,23 +43,25 @@
             <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
                 <tr>
-                  <th width="10"><input type="checkbox" id="all"></th>
                   <th>ID đơn hàng</th>
                   <th>Khách hàng</th>
                   <th>Tổng tiền</th>
-                  <th>Tình trạng</th>
+                  <th>Phương thức thanh toán</th>
+                  <th>Trạng thái thanh toán</th>
+                  <th>Trạng thái đơn hàng</th>
                   <th>Tính năng</th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="order : ${orders}">
-                  <td width="10"><input type="checkbox" name="check1" value="1"></td>
                   <td>Đơn hàng số <span th:text="${order.id}"></span></td>
-                  <td th:text="${order.cart.customer.name}"></td>
-                  <td th:text="${order.cart.getTotalPrice()}"></td>
+                  <td th:text="${order.customer.name}"></td>
+                  <td th:text="${order.getTotalPrice()}"></td>
+                  <td th:text="${order.paymentMethod}"></td>
+                  <td th:text="${order.paymentStatus}"></td>
                   <td><span class="badge bg-success" th:text="${order.status}"></span></td>
                   <td>
-                    <a th:href="@{/admin/order/{id}(id=${order.id})}" class="btn btn-primary btn-sm edit">CẬP NHẬT TRẠNG THÁI</a>
+                    <a th:href="@{/admin/order/{id}(id=${order.id})}" class="btn btn-primary btn-sm edit">CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG</a>
                   </td>
                 </tr>
               </tbody>

@@ -6,17 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     public CustomerService(CustomerRepository customerRepository, BCryptPasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
-        this.passwordEncoder = passwordEncoder;  // Lưu trữ tham chiếu tới passwordEncoder
+        this.passwordEncoder = passwordEncoder; // Lưu trữ tham chiếu tới passwordEncoder
     }
+
     public Customer findById(Long id) {
         return customerRepository.findById(id).orElse(null);
+    }
+
+    public List<Customer> getAllCustomer() {
+        return this.customerRepository.findAll();
     }
 
     public Customer updateCustomer(Long id, Customer updatedCustomer) {
@@ -33,10 +41,10 @@ public class CustomerService {
     }
 
     // Assume this checks the password as plain text; replace logic as needed
-//    public boolean checkPassword(Long customerId, String password) {
-//        Customer customer = findById(customerId);
-//        return customer != null && customer.getPassword().equals(password);
-//    }
+    // public boolean checkPassword(Long customerId, String password) {
+    // Customer customer = findById(customerId);
+    // return customer != null && customer.getPassword().equals(password);
+    // }
 
     // Update customer's password
     // Phương thức trong CustomerService để thay đổi mật khẩu
@@ -53,4 +61,7 @@ public class CustomerService {
         return false; // Trả về false nếu mật khẩu hiện tại không đúng hoặc người dùng không tồn tại
     }
 
+    public void deleteCustomer(Long customerId) {
+        customerRepository.deleteById(customerId);
+    }
 }

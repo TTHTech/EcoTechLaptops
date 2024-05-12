@@ -51,7 +51,7 @@
                             <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/register'">Sign up</button>
                         </div>
                         <div th:if="${session.customer != null}">
-                            <button class="dropdown-item" type="button" onclick="location.href='http://localhost:8080/account'">Account</button>
+                            <a class="dropdown-item" th:href="@{/profile}">Profile</a>
                             <form action="/logout" method="post">
                                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                                 <button type="submit" class="dropdown-item">Logout</button>
@@ -96,9 +96,10 @@
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-            <form action="">
+            <form th:action="@{/product/search}">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for products">
+                    <input type="text" class="form-control" placeholder="Search for products" name="searchInput">
+                    <!--                        <span th:text="${customer.getEmail()}"></span>-->
                     <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -157,29 +158,35 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a th:href="@{/home}" class="nav-item nav-link">Home</a>
-                        <a href="shop.html" class="nav-item nav-link">Shop</a>
-                        <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
+                        <a th:href="@{/home}" class="nav-item nav-link active">Home</a>
+                        <a th:href="@{/home/shop}" class="nav-item nav-link">Shop</a>
+                        <a href="" class="nav-item nav-link">Shop Detail</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                             <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                <a href="cart.html" class="dropdown-item active">Shopping Cart</a>
-                                <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                <a th:href="@{/cart/getCart}" class="dropdown-item">Shopping Cart</a>
+                                <a th:href="@{/cart/checkout}" class="dropdown-item">Checkout</a>
                             </div>
                         </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a href="" class="btn px-0">
+                        <!-- Favorites Link -->
+                        <a th:href="@{/favorite/getFavorite}" href="" class="btn px-0">
                             <i class="fas fa-heart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
+                                <span th:text="${session.favorite?.favoriteProducts != null ? session.favorite.favoriteProducts.size() : 0}"></span>
+                                </span>
                         </a>
+
+                        <!-- Cart Link -->
                         <a th:href="@{/cart/getCart}" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
                                 <span th:text="${session.cart.getItems().size()}"/>
-                            </span>
+                                </span>
                         </a>
+
                     </div>
                 </div>
             </nav>
@@ -219,9 +226,10 @@
                 </thead>
                 <tbody class="align-middle">
                 <tr th:each="item, itemStatus : ${cart.getItems()}" th:object="${item}">
-                    <td class="align-middle">
-                        <img th:src="@{/images/avatar/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
-                        <span th:text="${item.getProduct().getName()}">Product Name</span>
+                    <td class="align-middle" style="width: 300px; text-align: left">
+                        <img th:src="@{/images/product/{image}(image=${item.getProduct().getImage()})}" alt="" style="width: 50px;">
+                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: calc(100% - 60px);"
+                                th:text="${item.getProduct().getName()}">Product Name</span>
                     </td>
                     <td class="align-middle" th:text="@{'$' + ${item.getProduct().getPrice()}}">Price</td>
                     <td class="align-middle">
@@ -286,13 +294,24 @@
                             <h5>Total</h5>
                             <h5><span th:text="'$' + (${totalPrice} + 10)"/></h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        <button onclick="checkCartEmpty()" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    /* Lấy giá trị số lượng sản phẩm từ model và gán cho biến quantity */
+    var quantity = [[${cart.items.size()}]];
+
+    function checkCartEmpty() {
+        if (quantity === 0) {
+            alert("Empty cart!");
+        }
+    }
+</script>
 <!-- Cart End -->
 
 

@@ -1,10 +1,16 @@
 package org.example.test.model;
+
+import java.util.List;
+
 import jakarta.persistence.*;
+import org.example.test.service.OrderService;
+
+import java.util.List;
 
 @Entity(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private double price;
@@ -12,6 +18,7 @@ public class Product {
     private Category category;
     private String description;
     private String image;
+    private String status;
 
     public long getId() {
         return id;
@@ -61,14 +68,52 @@ public class Product {
         this.image = image;
     }
 
-    public Product(String productName, double productPrice, Category category, String description, String image) {
+    public Product(String status, String productName, double productPrice, Category category, String description,
+            String image) {
         this.name = productName;
         this.price = productPrice;
         this.category = category;
         this.description = description;
         this.image = image;
+        this.status = status;
     }
 
     public Product() {
+    }
+
+    // đếm số lượng sản phẩm này đã bán được bao nhiêu cái trong tất cả các đơn
+    public int countTheNumberOfProductSold(List<Order> orders) {
+        int count = 0;
+        for (Order order : orders) {
+            List<Item> purchasedItem = order.getPurchasedItems();
+            for (Item item : purchasedItem) {
+                if (this.id == item.getProduct().getId()) {
+                    count = count + item.getQuantity();
+                }
+            }
+        }
+        return count;
+    }
+
+    // đếm số lượng sản phẩm này đã bán được theo ngày
+    public int countTheNumberOfProductSoldByDay(List<Order> ordersByDay) {
+        int count = 0;
+        for (Order order : ordersByDay) {
+            List<Item> purchasedItem = order.getPurchasedItems();
+            for (Item item : purchasedItem) {
+                if (this.id == item.getProduct().getId()) {
+                    count = count + item.getQuantity();
+                }
+            }
+        }
+        return count;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

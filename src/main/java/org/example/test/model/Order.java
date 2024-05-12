@@ -16,6 +16,23 @@ public class Order {
     private String status;
     private Date createDate;
     private String paymentMethod;
+    private String paymentStatus;
+
+    public Order() {
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", purchasedItems=" + purchasedItems +
+                ", status='" + status + '\'' +
+                ", createDate=" + createDate +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                '}';
+    }
 
     public long getId() {
         return id;
@@ -53,6 +70,15 @@ public class Order {
         return createDate;
     }
 
+    public Order(Customer customer, List<Item> purchasedItems, String status, Date createDate, String paymentMethod, String paymentStatus) {
+        this.customer = customer;
+        this.purchasedItems = purchasedItems;
+        this.status = status;
+        this.createDate = createDate;
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
@@ -64,35 +90,28 @@ public class Order {
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
-
-
-    public Order() {
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+    
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
-    public Order(Customer customer, List<Item> purchasedItems, String status, Date createDate, String paymentMethod) {
-        this.customer = customer;
-        this.purchasedItems = purchasedItems;
-        this.status = status;
-        this.createDate = createDate;
-        this.paymentMethod = paymentMethod;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", customer=" + customer +
-                ", purchasedItems=" + purchasedItems +
-                ", status='" + status + '\'' +
-                ", createDate=" + createDate +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                '}';
-    }
-    private double getTotalPrice(){
+    public double getTotalPrice(){
         double totalPrice = 0;
         for (Item item : purchasedItems){
             totalPrice += item.getProduct().getPrice() * item.getQuantity();
         }
         return totalPrice;
+    }
+
+    // đếm số lượng sản phẩm có trong đơn hàng này
+    public int getTheNumberOfProduct() {
+        int count = 0;
+        for (Item item : purchasedItems){
+            count = count + item.getQuantity();
+        }
+        return count;
     }
 }

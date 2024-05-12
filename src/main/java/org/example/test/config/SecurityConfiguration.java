@@ -54,9 +54,16 @@ public class SecurityConfiguration {
                 .authenticationProvider(adminAuthenticationProvider())
                 .authenticationProvider(customerAuthenticationProvider())
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/favorite/remove/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/customer/**", "/register**", "/home/js/**", "/home/css/**", "/home/img/**", "/guest/**").permitAll()
-                        .requestMatchers("/resources/**", "/profile/**", "/change-password").authenticated()  // Ensure /change-password is securely accessible
+                        .requestMatchers("/customer/**", "/register**", "/home/js/**", "/home/css/**", "/home/img/**",
+                                "/guest/**", "/product/detail/**", "/resources/**")
+                        .permitAll()
+                        .requestMatchers("/resources/**", "/profile/**", "/change-password").authenticated() // Ensure
+                                                                                                             // /change-password
+                                                                                                             // is
+                                                                                                             // securely
+                                                                                                             // accessible
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -73,12 +80,11 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(
                                 new AntPathRequestMatcher("/profile/**"),
-                                new AntPathRequestMatcher("/change-password"))); // Correct way to ignore CSRF for specific endpoints
+                                new AntPathRequestMatcher("/change-password"))); // Correct way to ignore CSRF for
+                                                                                 // specific endpoints
 
         return http.build();
     }
-
-
 
     @Bean
     public AuthenticationSuccessHandler loginSuccessHandler() {
@@ -97,7 +103,8 @@ public class SecurityConfiguration {
     public LogoutSuccessHandler customLogoutSuccessHandler() {
         return new LogoutSuccessHandler() {
             @Override
-            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+                    Authentication authentication) throws IOException {
                 if (authentication != null && authentication.getAuthorities().stream()
                         .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                     response.sendRedirect("/login");

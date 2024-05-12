@@ -20,6 +20,7 @@ public class CartController {
     @GetMapping("/getCart")
     public String getCart(Model model, HttpSession session){
         Cart cart = (Cart) session.getAttribute("cart");
+
         model.addAttribute("cart", cart);
         model.addAttribute("totalPrice", cart.getTotalPrice());
 
@@ -33,8 +34,7 @@ public class CartController {
         cartService.updateQuantityCart(cart.getId(), itemId, quantity);
 
         // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
-        cart = cartService.findCart(cart.getCustomer());
-
+        cart = cartService.getCartWithProductsOnStatus(cart.getCustomer());
         // Cập nhật giỏ hàng mới vào phiên làm việc
         session.setAttribute("cart", cart);
 
@@ -47,8 +47,7 @@ public class CartController {
         this.cartService.deleteItemById(cart.getId(),itemId);
 
         // Lấy lại giỏ hàng mới từ cơ sở dữ liệu
-        cart = cartService.findCart(cart.getCustomer());
-
+        cart = cartService.getCartWithProductsOnStatus(cart.getCustomer());
         // Cập nhật giỏ hàng mới vào phiên làm việc
         session.setAttribute("cart", cart);
 
