@@ -7,12 +7,7 @@ import java.util.Map;
 import org.example.test.model.Category;
 import org.example.test.model.Customer;
 import org.example.test.model.Product;
-import org.example.test.service.CategoryService;
-import org.example.test.service.ProductService;
-import org.example.test.service.UploadService;
-import org.example.test.service.CustomerService;
-import org.example.test.service.ItemService;
-import org.example.test.service.FavoriteService;
+import org.example.test.service.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +21,12 @@ public class AdminController {
     private final UploadService uploadService;
     private final CustomerService customerService;
 
+
+
     public AdminController(CustomerService customerService,
             UploadService uploadService,
             CategoryService categoryService,
-            ProductService productService) {
+            ProductService productService, CartService cartService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.uploadService = uploadService;
@@ -246,6 +243,7 @@ public class AdminController {
                 return "admin/updateCategory";
             }
         }
+
         currentCategory.setName(category.getName());
         String imageCategory = this.uploadService.handleSaveUploadFile(file, "category");
         if (imageCategory != "")
