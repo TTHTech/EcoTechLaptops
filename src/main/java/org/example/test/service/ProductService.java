@@ -79,4 +79,8 @@ public class ProductService {
         return productRepository.countProductByCategoryIdAndStatus(id, string);
     }
 
+    public boolean isProductExistsInCategoryAndStatusOn(String name, String name2) {
+        return this.productRepository.existsProductByNameAndCategoryNameAndStatus(name, name2, "on");
+    }
+
 }

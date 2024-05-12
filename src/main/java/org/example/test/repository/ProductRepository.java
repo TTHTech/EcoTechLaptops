@@ -25,4 +25,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     int countProductByCategoryIdAndStatus(long id, String string);
 
+    boolean existsProductByNameAndCategoryNameAndStatus(String name, String name2, String string);
+
 }

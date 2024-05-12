@@ -21,8 +21,6 @@ public class AdminController {
     private final UploadService uploadService;
     private final CustomerService customerService;
 
-
-
     public AdminController(CustomerService customerService,
             UploadService uploadService,
             CategoryService categoryService,
@@ -114,7 +112,7 @@ public class AdminController {
     public String handleCreateCategory(@ModelAttribute("newCategory") Category category, Model model,
             @RequestParam("imageCategory") MultipartFile file) {
 
-        if (categoryService.isCategoryExists(category.getName())) {
+        if (categoryService.isCategoryExistsAndStatusOn(category.getName())) {
             model.addAttribute("error", "Tên danh mục đã tồn tại !");
             return "admin/createCategory";
         }

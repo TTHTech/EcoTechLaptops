@@ -58,7 +58,7 @@ public class AdminProductController {
             // Không có thông tin tìm kiếm, hiển thị tất cả sản phẩm
             products = productService.getAllProduct();
         }
-        List<Category> categories = categoryService.getAllCategory();
+        List<Category> categories = categoryService.getCategoriesByStatus("on");
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         return "admin/product";
@@ -67,9 +67,9 @@ public class AdminProductController {
     @PostMapping("/admin/product/create")
     public String handleCreateProduct(@ModelAttribute("newProduct") Product product, Model model,
             @RequestParam("imageProduct") MultipartFile file) {
-        if (productService.isProductExistsInCategory(product.getName(), product.getCategory().getName())) {
+        if (productService.isProductExistsInCategoryAndStatusOn(product.getName(), product.getCategory().getName())) {
             model.addAttribute("error", "Tên sản phẩm đã tồn tại trong danh mục này!");
-            List<Category> categories = categoryService.getAllCategory();
+            List<Category> categories = categoryService.getCategoriesByStatus("on");
             model.addAttribute("categories", categories);
             model.addAttribute("newProduct", new Product());
             return "admin/createProduct"; // Trả về trang tạo sản phẩm với thông báo lỗi
@@ -108,8 +108,7 @@ public class AdminProductController {
     @GetMapping("/admin/product/update/{id}")
     public String pageUpdateProduct(@PathVariable("id") Long id, Model model) {
         Product currentProduct = productService.getProductById(id);
-        List<Category> categories = categoryService.getAllCategory();
-
+        List<Category> categories = categoryService.getCategoriesByStatus("on");
         model.addAttribute("categories", categories);
         model.addAttribute("newProduct", currentProduct);
         return "admin/updateProduct";
@@ -125,7 +124,7 @@ public class AdminProductController {
                 // Nếu trùng, thêm thông báo lỗi và trả về trang cập nhật sản phẩm với thông báo
                 // lỗi
                 model.addAttribute("error", "Tên sản phẩm đã tồn tại trong danh mục này!");
-                List<Category> categories = categoryService.getAllCategory();
+                List<Category> categories = categoryService.getCategoriesByStatus("on");
                 model.addAttribute("categories", categories);
                 model.addAttribute("newProduct", product);
                 return "admin/updateProduct";
