@@ -17,4 +17,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     void deleteAll();
 
     boolean existsCategoryByName(String name);
+
+    List<Category> findCategoriesByStatus(String string);
 }

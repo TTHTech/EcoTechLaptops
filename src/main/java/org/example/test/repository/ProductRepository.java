@@ -18,9 +18,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findProductsByName(String productName);
 
-    //search:
+    // search:
     List<Product> findByNameContaining(String searchInput);
 
     boolean existsProductByNameAndCategoryName(String name, String name2);
+
+    int countProductByCategoryIdAndStatus(long id, String string);
 
 }
