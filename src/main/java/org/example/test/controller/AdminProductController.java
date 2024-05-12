@@ -86,7 +86,7 @@ public class AdminProductController {
     }
 
     @GetMapping("/admin/product/create")
-    public String handleCreateProduct(Model model) {
+    public String adminCreateProductPage(Model model) {
 
         List<Category> categories = categoryService.getCategoriesByStatus("on");
         model.addAttribute("categories", categories);
