@@ -240,19 +240,19 @@
                     <h3 class="font-weight-semi-bold mb-4" th:text="'$' + ${product.price}">$150.00</h3>
                     <p th:text="${product.description}">Product description here...</p>
                     <div class="d-flex align-items-center mb-4 pt-2">
-                        <div class="input-group quantity mr-3" style="width: 130px;">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
+<!--                        <div class="input-group quantity mr-3" style="width: 130px;">-->
+<!--                            <div class="input-group-btn">-->
+<!--                                <button class="btn btn-primary btn-minus">-->
+<!--                                    <i class="fa fa-minus"></i>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">-->
+<!--                            <div class="input-group-btn">-->
+<!--                                <button class="btn btn-primary btn-plus">-->
+<!--                                    <i class="fa fa-plus"></i>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <form th:action="@{'/product/addToCart/' + ${product.id}}" method="post">
                             <input type="hidden" name="_csrf" th:value="${_csrf.token}" />  <!-- Include CSRF token if Spring Security CSRF protection is enabled -->
                             <button type="submit" class="btn btn-primary px-3">
