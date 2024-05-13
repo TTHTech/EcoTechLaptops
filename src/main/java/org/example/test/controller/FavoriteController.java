@@ -68,7 +68,7 @@ public class FavoriteController {
     public String addToCart(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart == null) {
-            redirectAttributes.addFlashAttribute("error", "No cart found. Please login or create a cart.");
+            redirectAttributes.addFlashAttribute("error", "Không tìm thấy giỏ hàng. Vui lòng đăng nhập hoặc tạo giỏ hàng.");
             return "redirect:/login";
         }
 
@@ -81,9 +81,9 @@ public class FavoriteController {
             }
             cart = cartService.getCartWithProductsOnStatus(cart.getCustomer());
             session.setAttribute("cart", cart);
-            redirectAttributes.addFlashAttribute("success", "Product added to cart successfully!");
+            redirectAttributes.addFlashAttribute("success", "Sản phẩm đã được thêm vào giỏ hàng thành công!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to add product to cart: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Không thể thêm sản phẩm vào giỏ hàng! " + e.getMessage());
         }
 
         return "redirect:/cart/getCart";
