@@ -184,7 +184,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Tên danh mục</label>
-                                <input th:field="*{name}" class="form-control" type="text">
+                                <input th:field="*{name}" class="form-control" type="text" required>
                             </div>
 
                             <div class="form-group col-md-12">
@@ -192,7 +192,7 @@
                                 <div id="myfileupload">
                                     <input style="width: 250px;" class="form-control" type="file" id="avatarFile"
                                         accept=".png, .jpg, .jpeg" name="imageProduct" />
-                                    <input type="hidden" id="currentImage" th:field="*{image}" />
+                                    <input required type="hidden" id="currentImage" th:field="*{image}" />
                                 </div>
                                 <div id="thumbbox">
                                     <img height="450" width="400" alt="avatar preview" id="avatarPreview"
