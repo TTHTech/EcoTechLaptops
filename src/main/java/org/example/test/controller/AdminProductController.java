@@ -71,6 +71,7 @@ public class AdminProductController {
             model.addAttribute("error", "Tên sản phẩm đã tồn tại trong danh mục này!");
             List<Category> categories = categoryService.getCategoriesByStatus("on");
             model.addAttribute("categories", categories);
+            model.addAttribute("newProduct", new Product());
             return "admin/createProduct"; // Trả về trang tạo sản phẩm với thông báo lỗi
         }
         String imageProduct = this.uploadService.handleSaveUploadFile(file, "product");
