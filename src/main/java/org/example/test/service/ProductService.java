@@ -83,7 +83,13 @@ public class ProductService {
         return this.productRepository.existsProductByNameAndCategoryNameAndStatus(name, name2, "on");
     }
 
+    public List<Product> getProductsContainingName(String productName) {
+        return this.productRepository.findProductsByNameContaining(productName);
+    }
+
+
     public List<Product> getAllProductByStatus(String status) {
         return productRepository.findByStatus(status);
     }
+
 }

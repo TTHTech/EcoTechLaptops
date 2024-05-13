@@ -50,7 +50,7 @@ public class AdminProductController {
         List<Product> products;
         if (productName != null && !productName.isEmpty()) {
             // Nếu tìm theo tên sản phẩm
-            products = productService.getProductsByName(productName);
+            products = productService.getProductsContainingName(productName);
         } else if (categoryId != null) {
             // Nếu tìm theo danh mục
             products = productService.getProductsByCategoryId(categoryId);
@@ -86,7 +86,7 @@ public class AdminProductController {
     }
 
     @GetMapping("/admin/product/create")
-    public String handleCreateProduct(Model model) {
+    public String adminCreateProductPage(Model model) {
 
         List<Category> categories = categoryService.getCategoriesByStatus("on");
         model.addAttribute("categories", categories);
