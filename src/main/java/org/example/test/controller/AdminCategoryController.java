@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class AdminController {
+public class AdminCategoryController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final UploadService uploadService;
     private final CustomerService customerService;
 
-    public AdminController(CustomerService customerService,
+    public AdminCategoryController(CustomerService customerService,
             UploadService uploadService,
             CategoryService categoryService,
             ProductService productService, CartService cartService) {
@@ -103,7 +103,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/category/create")
-    public String handleCreateCategory(Model model) {
+    public String adminCreateCategoryPage(Model model) {
         model.addAttribute("newCategory", new Category());
         return "admin/createCategory";
     }
