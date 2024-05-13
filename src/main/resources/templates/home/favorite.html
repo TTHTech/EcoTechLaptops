@@ -265,10 +265,15 @@
                         </form>
                     </td>
                     <td class="align-middle">
-                        <button class="btn btn-sm btn-danger" th:attr="onclick=|removeProduct('${product.id}')|">
-                            <i class="fa fa-times"></i>
-                        </button>
+                        <form th:action="@{/favorite/remove/{productId}(productId=${product.id})}" method="get">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </form>
                     </td>
+
+
+
 
 
                 </tr>
@@ -397,6 +402,25 @@
 
 
 </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // Định nghĩa hàm removeProduct để gửi yêu cầu AJAX và cập nhật nội dung trang
+        function removeProduct(productId) {
+            $.ajax({
+                type: 'GET',
+                url: '/favorite/remove/' + productId,
+                success: function(response) {
+                    // Nếu yêu cầu thành công, tải lại phần nội dung của phần yêu thích
+                    $('#favorite-section').load('/favorite/getFavorite #favorite-section');
+                },
+                error: function(xhr, status, error) {
+                    // Xử lý lỗi nếu có
+                    console.error(error);
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>
