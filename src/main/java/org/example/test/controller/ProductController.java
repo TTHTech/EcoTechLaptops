@@ -56,7 +56,7 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("error", "Failed to add product to cart: " + e.getMessage());
         }
 
-        return "redirect:/product/detail/" + id;
+        return "redirect:/cart/getCart";
     }
 
     @GetMapping("/search")
