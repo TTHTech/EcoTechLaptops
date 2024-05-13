@@ -73,7 +73,12 @@ public class FavoriteController {
         }
 
         try {
+
             cartService.addToCart(cart.getId(), id);
+            Customer customer = (Customer) session.getAttribute("customer");
+            if (customer != null) {
+                favoriteService.removeProductFromFavorites(customer, productService.getProductById(id));
+            }
             cart = cartService.getCartWithProductsOnStatus(cart.getCustomer());
             session.setAttribute("cart", cart);
             redirectAttributes.addFlashAttribute("success", "Product added to cart successfully!");
@@ -83,5 +88,6 @@ public class FavoriteController {
 
         return "redirect:/cart/getCart";
     }
+
 
 }
