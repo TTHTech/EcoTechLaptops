@@ -257,21 +257,36 @@
                     <td class="align-middle" th:text="${product.price}">$150</td>
                     <td class="align-middle" th:text="${product.category.name}">Category Name</td>
                     <td class="align-middle">
-                        <form th:action="@{'/favorite/addToCart/' + ${product.id}}" method="post">
+                        <form onclick="showCart()" th:action="@{'/favorite/addToCart/' + ${product.id}}" method="post">
                             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/> <!-- Bảo mật CSRF -->
                             <button type="submit" class="btn btn-primary px-3">
                                 <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
                             </button>
                         </form>
                     </td>
+                    <script>
+                        // Hàm để hiển thị popup alert
+                        function showCart() {
+
+                            alert("Sản phẩm đã được thêm vào giỏ hàng thành công!");
+                        }
+
+                    </script>
                     <td class="align-middle">
-                        <form th:action="@{/favorite/remove/{productId}(productId=${product.id})}" method="get">
+                        <form onclick="showAlert()" th:action="@{/favorite/remove/{productId}(productId=${product.id})}" method="get">
                             <button type="submit" class="btn btn-sm btn-danger">
                                 <i class="fa fa-times"></i>
                             </button>
                         </form>
                     </td>
+                    <script>
+                        // Hàm để hiển thị popup alert
+                        function showAlert() {
 
+                            alert("Đã xóa sản phẩm khỏi danh sách yêu thích");
+                        }
+
+                    </script>
 
 
 
